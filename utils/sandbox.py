@@ -1,9 +1,11 @@
 """ sandbox """
+import random
 
 from tests.data import sandbox_data
 
 from models import *
 import numpy
+
 
 def do_sandbox():
 
@@ -78,7 +80,7 @@ def do_sandbox():
                 userProp = UserProperty()
                 userProp.user_id = idx_user + 1
                 userProp.property_id = idx_property + 1
-                userProp.value = numpy.random.randint(10) + 1
+                userProp.value = float(numpy.random.randint(10) + 1)
                 BaseObject.check_and_save(userProp)
                 print("Object : userproperty CREATED")
                 user_properties.append(userProp)
@@ -94,7 +96,7 @@ def do_sandbox():
                 prop = Proposition()
                 prop.user_id = idx_user + 1
                 prop.recommendation_id = idx_rec + 1
-                prop.state = numpy.random.randint(3) - 1
+                prop.state = random.choice(list(PropositionStatus))
                 prop.probability = 0.1
                 BaseObject.check_and_save(prop)
                 print("Object : proposition CREATED")
