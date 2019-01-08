@@ -2,7 +2,7 @@
 from flask import current_app as app, jsonify
 from flask_login import current_user, login_required
 from models import Activity
-from engine.activity import StartActivity, EndActivity, ValidateActivity, AlreadyStartedException, HoldActivity
+from domain.activity import StartActivity, EndActivity, ValidateActivity, AlreadyStartedException, HoldActivity
 from collections import OrderedDict
 from utils.human_ids import dehumanize
 

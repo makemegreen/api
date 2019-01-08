@@ -2,7 +2,7 @@
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
 
-from engine.recommendation import DiscoverNewRecommendations
+from domain.recommendation import DiscoverNewRecommendations
 from models import Recommendation, Activity, ActivityStatus
 from collections import OrderedDict
 

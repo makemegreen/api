@@ -2,7 +2,7 @@
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
 
-from engine.property import GetUserProperties, SaveUserProperties
+from domain.property import GetUserProperties, SaveUserProperties
 
 
 @app.route("/property", methods=['POST'])

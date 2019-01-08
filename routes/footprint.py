@@ -4,8 +4,8 @@ from collections import OrderedDict
 
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
-from engine.footprint import GetFootprints, ComputeFootprint, GetFootprintHistory
-from engine.activity import GetActivityCount, GetWeeklyProgress
+from domain.footprint import GetFootprints, ComputeFootprint, GetFootprintHistory
+from domain.activity import GetActivityCount, GetWeeklyProgress
 from models import Activity, ActivityStatus, User
 
 
