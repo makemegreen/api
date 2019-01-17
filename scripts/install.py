@@ -9,6 +9,5 @@ def install_scripts():
     from models.footprint import Footprint
     from models.footprint_type import FootprintType
     from models.recommendation import Recommendation
-    from models.progress import Progress
 
     import scripts.sandbox
