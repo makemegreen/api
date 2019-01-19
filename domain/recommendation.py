@@ -7,8 +7,8 @@ import numpy as np
 import os
 from datetime import datetime
 from sqlalchemy import func
-from engine.ml_modules.ensemble_model import ensemble_model
-from engine.ml_modules.modules.container import container
+from engine.ensemble_model import ensemble_model
+from engine.modules.container import container
 
 
 class BadUserException(Exception):
