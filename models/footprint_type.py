@@ -3,10 +3,9 @@ from collections import OrderedDict
 
 
 class FootprintType(Enum):
-    total = {'label': "total"}
-    carbon = {'label': "carbon"}
-    water = {'label': "water"}
-    waste = {'label': "waste"}
+    home = {'label': "home"}
+    food = {'label': "food"}
+    road = {'label': "road"}
 
     def _asdict(self):
         result = OrderedDict()
