@@ -11,9 +11,6 @@ BASE_DATA = {
 @pytest.mark.standalone
 @clean_database
 def test_search_without_text_in_the_form(app):
-    user = create_user()
-    user.id = 1
-    BaseObject.check_and_save(user)
     create_reco("recommendations_data_test")
     r = req.get(API_URL + '/recommendations/search?title=""')
     search_json = r.json()
@@ -24,6 +21,7 @@ def test_search_without_text_in_the_form(app):
 @pytest.mark.standalone
 @clean_database
 def test_get_search_recommandation_in_title(app):
+    create_reco("recommendations_data_test")
     r = req.get(API_URL + '/recommendations/search?title=prends vélo')
     search_json = r.json()
     print("test d'ecriture")
@@ -34,6 +32,7 @@ def test_get_search_recommandation_in_title(app):
 @pytest.mark.standalone
 @clean_database
 def test_get_search_recommandation_in_title_special_char(app):
+    create_reco("recommendations_data_test")
     r = req.get(API_URL + '/recommendations/search?title=vélo ça là être @#+%*$ $£è çàé &')
     search_json = r.json()
     assert r.status_code == 200
@@ -43,6 +42,7 @@ def test_get_search_recommandation_in_title_special_char(app):
 @pytest.mark.standalone
 @clean_database
 def test_search_should_not_work_with_wrong_parameters(app):
+    create_reco("recommendations_data_test")
     r = req.get(API_URL + '/recommendations/search?wrong_field=blablablablabla')
     search_json = r.json()
     assert r.status_code == 400
@@ -52,6 +52,7 @@ def test_search_should_not_work_with_wrong_parameters(app):
 @pytest.mark.standalone
 @clean_database
 def test_search_without_parameters(app):
+    create_reco("recommendations_data_test")
     r = req.get(API_URL + '/recommendations/search?')
     search_json = r.json()
     assert r.status_code == 400
@@ -61,6 +62,7 @@ def test_search_without_parameters(app):
 @pytest.mark.standalone
 @clean_database
 def test_search_sql_injection_all(app):
+    create_reco("recommendations_data_test")
     r = req.get(API_URL + '/recommendations/search?title=*')
     search_json = r.json()
     assert r.status_code == 200
