@@ -45,21 +45,21 @@ class ComputeFootprint:
                 {
                     "id": 1,
                     "type": {
-                        "label": "carbon"
+                        "label": "home"
                     },
                     "value": self.getCO2Footprint(data)
                 },
                 {
                     "id": 2,
                     "type": {
-                        "label": "waste"
+                        "label": "food"
                     },
                     "value": self.getTrashFootprint(data)
                 },
                 {
                     "id": 3,
                     "type": {
-                        "label": "water"
+                        "label": "road"
                     },
                     "value": self.getWaterFootprint(data)
                 }
