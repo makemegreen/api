@@ -8,7 +8,7 @@ recommendations_data_test = [
         "estimated_success_time": 20,
         "difficulty_level": 2,
         "benefit": 60,
-        "type": "carbon"
+        "type": "road"
     },
     {
         "title": "Prends une douche",
@@ -16,7 +16,7 @@ recommendations_data_test = [
         "estimated_success_time": 3,
         "difficulty_level": 1,
         "benefit": 120,
-        "type": "water"
+        "type": "home"
     },
     {
         "title": "Achète du verre non teinté",
@@ -24,7 +24,7 @@ recommendations_data_test = [
         "estimated_success_time": 7,
         "difficulty_level": 2,
         "benefit": 30,
-        "type": "waste"
+        "type": "food"
     },
     {
         "title": "vélo ça ",
@@ -32,7 +32,7 @@ recommendations_data_test = [
         "estimated_success_time": 20,
         "difficulty_level": 2,
         "benefit": 60,
-        "type": "carbon"
+        "type": "road"
     },
     {
         "title": "là être @#+%*$",
@@ -40,7 +40,7 @@ recommendations_data_test = [
         "estimated_success_time": 3,
         "difficulty_level": 1,
         "benefit": 120,
-        "type": "water"
+        "type": "home"
     },
     {
         "title": "$£è çàé &",
@@ -48,6 +48,6 @@ recommendations_data_test = [
         "estimated_success_time": 7,
         "difficulty_level": 2,
         "benefit": 30,
-        "type": "waste"
+        "type": "food"
     },
 ]

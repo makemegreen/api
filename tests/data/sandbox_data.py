@@ -108,25 +108,19 @@ properties_data = [
 footprints_data = [
     {
         "type": {
-            "label": "total"
-        },
-        "value": 2340,
-    },
-    {
-        "type": {
-            "label": "carbon"
+            "label": "home"
         },
         "value": 540,
     },
     {
         "type": {
-            "label": "water"
+            "label": "road"
         },
         "value": 1200,
     },
     {
         "type": {
-            "label": "waste"
+            "label": "food"
         },
         "value": 600,
     }
@@ -140,7 +134,7 @@ recommendations_data = [
         "estimated_success_time": 20,
         "difficulty_level": 2,
         "benefit": 60,
-        "type": "carbon"
+        "type": "road"
     },
     {
         "title": "Prends une douche",
@@ -148,7 +142,7 @@ recommendations_data = [
         "estimated_success_time": 3,
         "difficulty_level": 1,
         "benefit": 120,
-        "type": "water"
+        "type": "home"
     },
     {
         "title": "Achète du verre non teinté",
@@ -156,7 +150,7 @@ recommendations_data = [
         "estimated_success_time": 7,
         "difficulty_level": 2,
         "benefit": 30,
-        "type": "waste"
+        "type": "food"
     },
     {
         "title": "Je pense à éteindre mon frigo pendant mes vacances",
@@ -164,6 +158,6 @@ recommendations_data = [
         "estimated_success_time": 6,
         "difficulty_level": 2,
         "benefit": 45,
-        "type": "carbon"
+        "type": "home"
     },
 ]
