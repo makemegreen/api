@@ -11,3 +11,4 @@ def install_scripts():
     from models.recommendation import Recommendation
 
     import scripts.sandbox
+    import scripts.import_reco

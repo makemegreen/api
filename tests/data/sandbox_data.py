@@ -78,31 +78,6 @@ properties_data = [
         "property_name": "yellow_garbage",
     },
 ]
-# # Properties
-# properties_data = [
-#     {
-#         "property_name": "Tu manges beaucoup de viandes?"
-#     },
-#     {
-#         "property_name": "Tu prends beaucoup la voiture?"
-#     },
-#     {
-#         "property_name": "Tu te laves?"
-#
-#     },
-#     {
-#         "property_name": "Tu chauffes ton appartement?"
-#
-#     },
-#     {
-#         "property_name": "Tu achètes local?"
-#
-#     },
-#     {
-#         "property_name": "Tu fais du vélo?"
-#
-#     }
-# ]
 
 # FOOTPRINTS
 footprints_data = [
