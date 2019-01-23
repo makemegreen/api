@@ -99,7 +99,7 @@ class ValidateActivity:
 
         # UPDATE ACTIVITY
         activity = Activity.query.filter_by(id=activity_id).first()
-        activity.set_status(ActivityStatus.success)
+        activity.status = ActivityStatus.success
         activity.set_date_end()
 
         # CREATE NEW : footprint
@@ -109,9 +109,10 @@ class ValidateActivity:
             order_by(Footprint.date_created.desc()). \
             first()
 
-        previous_value = footprint.get_value()
+
+        previous_value = footprint.value
         new_footprint = Footprint(from_dict=footprint._asdict())
-        new_footprint.set_value(previous_value - activity.recommendation.benefit)
+        new_footprint.value = previous_value - activity.recommendation.benefit
         new_footprint.set_date_created()
 
         BaseObject.check_and_save(activity, new_footprint)
@@ -128,9 +129,10 @@ class HoldActivity:
         if activity_id is None or user_id is None:
             raise BadArgException()
 
+
         # UPDATE ACTIVITY
         activity = Activity.query.filter_by(id=activity_id).first()
-        activity.set_status(ActivityStatus.pending)
+        activity.status = ActivityStatus.pending
         activity.set_date_end()
 
         # UPDATE : footprint
@@ -140,9 +142,9 @@ class HoldActivity:
             order_by(Footprint.date_created.desc()). \
             first()
 
-        previous_value = footprint.get_value()
+        previous_value = footprint.value
         new_footprint = Footprint(from_dict=footprint._asdict())
-        new_footprint.set_value(previous_value + activity.recommendation.benefit)
+        new_footprint.value = previous_value + activity.recommendation.benefit
         new_footprint.set_date_created()
 
         BaseObject.check_and_save(activity, new_footprint)

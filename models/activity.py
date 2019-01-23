@@ -36,7 +36,7 @@ class Activity(BaseObject, Model):
         return str(self.id)
 
     def get_benefit(self):
-        return self.recommendation.get_benefit()
+        return self.recommendation.benefit
 
     def set_recommendation(self, recommendation_id):
         self.recommendation_id = recommendation_id

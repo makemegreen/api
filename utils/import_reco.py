@@ -8,6 +8,8 @@ def do_import_reco(file_path) -> Recommendation:
     total_reco = new_reco = 0
 
     for row in reco_dataframe.itertuples():
+        if str(row.benefit) == 'nan':
+            continue
         reco = Recommendation.query.get(row.id)
         if not reco:
             reco = Recommendation()
@@ -15,7 +17,7 @@ def do_import_reco(file_path) -> Recommendation:
             new_reco += 1
 
         reco.title = row.title
-        if str(row.how_to) != 'nan':
+        if str(row.content) != 'nan':
             reco.content = row.content
         # TODO: temporary with set a default value
         else:
@@ -24,6 +26,8 @@ def do_import_reco(file_path) -> Recommendation:
             reco.benefit = row.benefit
         else:
             reco.benefit = 0.0
+        if str(row.benefit_description) != 'nan':
+            reco.benefit_description = row.benefit_description
         if str(row.how_to) != 'nan':
             reco.how_to = row.how_to
         reco.type = FootprintType({'label': row.category})
