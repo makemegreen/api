@@ -16,6 +16,7 @@ def validate_activity(activity_id):
     ValidateActivity().execute(activity_id=activity_id, user_id=int(current_user.get_id()))
     result = dict({"success": "yes"})
 
+
     return jsonify(result)
 
 

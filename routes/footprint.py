@@ -59,6 +59,7 @@ def get_info():
     users_count = 0
     current_user_total_saved = 0
 
+
     for user in users:
         activities = Activity.query.\
             filter_by(status=ActivityStatus.success).\

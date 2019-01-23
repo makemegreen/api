@@ -15,6 +15,7 @@ class Recommendation(BaseObject, Model):
     content = Column(Text, nullable=False)
     benefit = Column(Float, nullable=False)
     benefit_description = Column(Text, nullable=True)
+    did_you_know = Column(Text, nullable=True)
     how_to = Column(Text, nullable=True)
     type = Column(Enum(FootprintType))
 

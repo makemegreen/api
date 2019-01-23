@@ -77,6 +77,9 @@ properties_data = [
     {
         "property_name": "yellow_garbage",
     },
+    {
+        "property_name": "green_garbage",
+    },
 ]
 
 # FOOTPRINTS
@@ -85,19 +88,19 @@ footprints_data = [
         "type": {
             "label": "home"
         },
-        "value": 540,
+        "value": 540.0,
     },
     {
         "type": {
             "label": "road"
         },
-        "value": 1200,
+        "value": 1200.0,
     },
     {
         "type": {
             "label": "food"
         },
-        "value": 600,
+        "value": 600.0,
     }
 ]
 
@@ -106,33 +109,25 @@ recommendations_data = [
     {
         "title": "Prends ton vélo",
         "content": "Un vélo ça polue vraiment moins qu'une voiture quand même !",
-        "estimated_success_time": 20,
-        "difficulty_level": 2,
-        "benefit": 60,
+        "benefit": 60.0,
         "type": "road"
     },
     {
         "title": "Prends une douche",
         "content": "Arrêtes les bains et prends des douches parce que c'est mieux !",
-        "estimated_success_time": 3,
-        "difficulty_level": 1,
-        "benefit": 120,
+        "benefit": 120.0,
         "type": "home"
     },
     {
         "title": "Achète du verre non teinté",
         "content": "C'est le seul verre qui est recyclable !",
-        "estimated_success_time": 7,
-        "difficulty_level": 2,
-        "benefit": 30,
+        "benefit": 30.0,
         "type": "food"
     },
     {
         "title": "Je pense à éteindre mon frigo pendant mes vacances",
         "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum feugiat eleifend. Vivamus non condimentum mauris. Pellentesque venenatis mauris quis diam dapibus, at dignissim turpis commodo. Pellentesque lacinia, lorem vitae faucibus efficitur, justo nulla ornare purus, ac ultricies magna nulla vel dolor. Sed tempor finibus sapien. Donec rutrum odio mi, in tempus est sollicitudin eget. Duis mollis arcu dui, sit amet feugiat orci laoreet non. In bibendum diam nec dui aliquam maximus. Nullam ac justo sem. Curabitur at ante porta, efficitur leo in, lacinia dui. In nec lectus in mauris vulputate gravida. Suspendisse quis feugiat leo, et luctus nibh. Praesent diam felis, dignissim nec ante vitae, laoreet accumsan diam.",
-        "estimated_success_time": 6,
-        "difficulty_level": 2,
-        "benefit": 45,
+        "benefit": 45.0,
         "type": "home"
     },
 ]

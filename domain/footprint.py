@@ -45,7 +45,7 @@ class ComputeFootprint:
                 {
                     "id": 1,
                     "type": {
-                        "label": "home"
+                        "label": "road"
                     },
                     "value": self.getCO2Footprint(data)
                 },
@@ -59,7 +59,7 @@ class ComputeFootprint:
                 {
                     "id": 3,
                     "type": {
-                        "label": "road"
+                        "label": "home"
                     },
                     "value": self.getWaterFootprint(data)
                 }
