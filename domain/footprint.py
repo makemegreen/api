@@ -1,6 +1,6 @@
 """ Footprint """
 from models import BaseObject, Footprint, User, FootprintType
-from engine import dictionnary as info
+from engine.dictionnary import dic as info
 from flask import current_app as app
 
 class BadUserException(Exception):
