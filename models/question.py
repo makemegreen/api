@@ -6,11 +6,13 @@ from models.db import Model
 from models.base_object import BaseObject
 
 
-class Property(BaseObject, Model):
+class Question(BaseObject, Model):
 
     id = Column(Integer, primary_key=True)
 
     property_name = Column(Text, unique=True, nullable=False)
+
+    display_text = Column(Text)
 
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow())
 
@@ -18,5 +20,5 @@ class Property(BaseObject, Model):
         return str(self.id)
 
     def errors(self):
-        errors = super(Property, self).errors()
+        errors = super(Question, self).errors()
         return errors

@@ -1,7 +1,7 @@
 """ Activity """
 import random
 
-from models import BaseObject, User, Recommendation, UserProperty, Proposition, Property
+from models import BaseObject, User, Recommendation, UserProperty, Proposition, Question
 from flask import current_app as app
 import numpy as np
 import os
@@ -66,10 +66,10 @@ class DiscoverNewRecommendations:
 
             # Retrieve information from database
             nb_users             = User.query.count()
-            nb_properties        = Property.query.count()
+            nb_properties        = Question.query.count()
             nb_recommendations   = Recommendation.query.count()
             all_userproperties   = UserProperty.query.with_entities(UserProperty.id, UserProperty.user_id,\
-                                                                    UserProperty.property_id, UserProperty.value).all()
+                                                                    UserProperty.question_id, UserProperty.value).all()
             all_userpropositions = Proposition.query.with_entities(Proposition.id, Proposition.user_id, \
                                                                     Proposition.recommendation_id, Proposition.state, \
                                                                     Proposition.date_write).all()
@@ -84,7 +84,7 @@ class DiscoverNewRecommendations:
             # user properties
             arr_ppties   = np.zeros([nb_users, nb_properties])
             for uprop in all_userproperties:
-                arr_ppties[uprop.user_id - 1, uprop.property_id - 1] = uprop.value
+                arr_ppties[uprop.user_id - 1, uprop.question_id - 1] = uprop.value
 
             # user propositions
             arr_pptions     = np.zeros([nb_users, nb_recommendations])

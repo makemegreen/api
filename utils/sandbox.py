@@ -24,10 +24,10 @@ def do_sandbox():
             test_user_id = int(users[0].get_id())
 
     properties = []
-    query = Property.query
+    query = Question.query
     if query.count() == 0:
         for property_data in sandbox_data.properties_data:
-            property_obj = Property(from_dict=property_data)
+            property_obj = Question(from_dict=property_data)
             BaseObject.check_and_save(property_obj)
             print("Object: property CREATED")
             properties.append(property_obj)
@@ -60,9 +60,9 @@ def do_sandbox():
 
     properties = []
     for prop_data in sandbox_data.properties_data:
-        query = Property.query.filter_by(property_name=prop_data['property_name'])
+        query = Question.query.filter_by(property_name=prop_data['property_name'])
         if query.count() == 0:
-            prop = Property(from_dict=prop_data)
+            prop = Question(from_dict=prop_data)
             BaseObject.check_and_save(prop)
             print("Object: property CREATED")
             properties.append(prop)
@@ -75,11 +75,11 @@ def do_sandbox():
         if idx_user == 1:
             count -= 1
         for idx_property in range(count):
-            query = UserProperty.query.filter_by(user_id=idx_user + 1).filter_by(property_id=idx_property + 1)
+            query = UserProperty.query.filter_by(user_id=idx_user + 1).filter_by(question_id=idx_property + 1)
             if query.count() == 0:
                 userProp = UserProperty()
                 userProp.user_id = idx_user + 1
-                userProp.property_id = idx_property + 1
+                userProp.question_id = idx_property + 1
                 userProp.value = float(numpy.random.randint(10) + 1)
                 BaseObject.check_and_save(userProp)
                 print("Object : userproperty CREATED")

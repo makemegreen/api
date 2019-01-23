@@ -1,6 +1,6 @@
 import pytest
 
-from models import BaseObject, Property, UserProperty
+from models import BaseObject, Question, UserProperty
 from tests.conftest import clean_database
 from utils.test_utils import API_URL, req_with_auth, create_user
 
@@ -14,7 +14,7 @@ def test_get_property_should_return_false_for_property_is_not_answered_already(a
                        username='test',
                        password='test12345678')
     obj_to_save.append(user)
-    property_obj = Property()
+    property_obj = Question()
     property_obj.property_name = 'question_1'
     obj_to_save.append(property_obj)
     BaseObject.check_and_save(*obj_to_save)
@@ -38,13 +38,13 @@ def test_get_property_should_return_value_for_property_if_already_answered(app):
                        username='test',
                        password='test12345678')
     obj_to_save.append(user)
-    property_obj = Property()
+    property_obj = Question()
     property_obj.property_name = 'question_1'
     obj_to_save.append(property_obj)
     BaseObject.check_and_save(*obj_to_save)
     user_property_obj = UserProperty()
     user_property_obj.user_id = user.id
-    user_property_obj.property_id = property_obj.id
+    user_property_obj.question_id = property_obj.id
     user_property_obj.value = float(0.5)
     BaseObject.check_and_save(user_property_obj)
 
@@ -68,7 +68,7 @@ def test_save_property_set_value_if_property_exists_and_user_property_does_not(a
                        username='test',
                        password='test12345678')
     obj_to_save.append(user)
-    property_obj = Property()
+    property_obj = Question()
     property_obj.property_name = 'question_1'
     obj_to_save.append(property_obj)
     BaseObject.check_and_save(*obj_to_save)
@@ -85,7 +85,7 @@ def test_save_property_set_value_if_property_exists_and_user_property_does_not(a
 
     user_property_obj = UserProperty.query.\
         filter_by(user_id=user.id).\
-        filter_by(property_id=property_obj.id).\
+        filter_by(question_id=property_obj.id).\
         first()
 
     assert user_property_obj is not None
@@ -101,14 +101,14 @@ def test_save_property_set_value_if_property_and_user_property_exist(app):
                        username='test',
                        password='test12345678')
     obj_to_save.append(user)
-    property_obj = Property()
+    property_obj = Question()
     property_obj.property_name = 'question_1'
     obj_to_save.append(property_obj)
     BaseObject.check_and_save(*obj_to_save)
 
     user_property_obj = UserProperty()
     user_property_obj.user_id = user.id
-    user_property_obj.property_id = property_obj.id
+    user_property_obj.question_id = property_obj.id
     user_property_obj.value = float(12)
     BaseObject.check_and_save(user_property_obj)
 
@@ -124,7 +124,7 @@ def test_save_property_set_value_if_property_and_user_property_exist(app):
 
     user_property_obj = UserProperty.query. \
         filter_by(user_id=user.id). \
-        filter_by(property_id=property_obj.id). \
+        filter_by(question_id=property_obj.id). \
         first()
 
     assert user_property_obj is not None

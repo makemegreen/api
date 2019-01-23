@@ -11,7 +11,7 @@ class UserProperty(BaseObject, Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
 
-    property_id = Column(BigInteger, ForeignKey('property.id'), nullable=False)
+    question_id = Column(BigInteger, ForeignKey('question.id'), nullable=False)
 
     value = Column(Float, nullable=False)
 

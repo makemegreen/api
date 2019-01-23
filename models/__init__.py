@@ -7,8 +7,7 @@ from models.activity import Activity, ActivityStatus
 from models.recommendation import Recommendation
 from models.proposition import Proposition, PropositionStatus
 from models.user_property import UserProperty
-from models.recommendation_property import RecommendationProperty
-from models.property import Property
+from models.question import Question
 
 __all__ = (
     'ApiErrors',
@@ -22,6 +21,5 @@ __all__ = (
     'Proposition',
     'PropositionStatus',
     'UserProperty',
-    'RecommendationProperty',
-    'Property',
+    'Question',
 )
