@@ -1,8 +1,8 @@
-"""property routes"""
+"""user_property routes"""
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
 
-from domain.property import GetUserProperties, SaveUserProperties
+from domain.user_property import GetUserProperties, SaveUserProperties
 
 
 @app.route("/property", methods=['POST'])

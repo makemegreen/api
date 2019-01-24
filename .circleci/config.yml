@@ -42,7 +42,7 @@ jobs:
           name: Start API server
           command: |
             . venv/bin/activate
-            python app.py
+            alembic upgrade head && python app.py
           background: true
       - run:
           name: Run API tests

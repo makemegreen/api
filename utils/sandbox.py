@@ -23,16 +23,16 @@ def do_sandbox():
             users.append(query.one())
             test_user_id = int(users[0].get_id())
 
-    properties = []
+    questions = []
     query = Question.query
     if query.count() == 0:
-        for property_data in sandbox_data.properties_data:
-            property_obj = Question(from_dict=property_data)
-            BaseObject.check_and_save(property_obj)
-            print("Object: property CREATED")
-            properties.append(property_obj)
+        for question_data in sandbox_data.question_data:
+            question = Question(from_dict=question_data)
+            BaseObject.check_and_save(question)
+            print("Object: question CREATED")
+            questions.append(question)
     else:
-        properties.append(query.all())
+        questions.append(query.all())
 
     footprints = []
     query = Footprint.query.filter_by(user_id=test_user_id)
@@ -58,20 +58,20 @@ def do_sandbox():
         else:
             recommendations.append(query.one())
 
-    properties = []
-    for prop_data in sandbox_data.properties_data:
-        query = Question.query.filter_by(property_name=prop_data['property_name'])
+    questions = []
+    for prop_data in sandbox_data.question_data:
+        query = Question.query.filter_by(question_name=prop_data['question_name'])
         if query.count() == 0:
             prop = Question(from_dict=prop_data)
             BaseObject.check_and_save(prop)
             print("Object: property CREATED")
-            properties.append(prop)
+            questions.append(prop)
         else:
-            properties.append(query.one())
+            questions.append(query.one())
 
     user_properties = []
     for idx_user in range(len(users)):
-        count = len(properties)
+        count = len(questions)
         if idx_user == 1:
             count -= 1
         for idx_property in range(count):

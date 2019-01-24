@@ -60,10 +60,10 @@ def signup():
     # TODO: c'est pas beau mais c'était plus rapide :(
     answers = footprints.get('answers')
     for key, value in answers.items():
-        property_obj = Question.query.filter_by(property_name=key).first()
+        question_obj = Question.query.filter_by(question_name=key).first()
         answer_obj = UserProperty()
         answer_obj.user_id = int(new_user.get_id())
-        answer_obj.question_id = int(property_obj.id)
+        answer_obj.question_id = int(question_obj.id)
         answer_obj.value = float(value)
         BaseObject.check_and_save(answer_obj)
         objects_to_save.append(answer_obj)

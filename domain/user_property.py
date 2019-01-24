@@ -19,14 +19,14 @@ class GetUserProperties:
         pass
 
     def execute(self, user_id: int) -> dict:
-        properties = Question.query.all()
+        questions = Question.query.all()
         obj = dict()
-        for property_obj in properties:
+        for question in questions:
             user_answers = UserProperty.query. \
                 filter_by(user_id=user_id). \
-                filter_by(question_id=property_obj.id). \
+                filter_by(question_id=question.id). \
                 first()
-            obj[property_obj.property_name] = user_answers.value if user_answers is not None else False
+            obj[question.question_name] = user_answers.value if user_answers is not None else False
         return obj
 
 
@@ -37,21 +37,21 @@ class SaveUserProperties:
     def execute(self, data: dict, user_id: int):
         object_to_save = []
         for key, value in data.items():
-            property_obj = Question.query.filter_by(property_name=key).first()
-            if property_obj is not None\
+            question = Question.query.filter_by(question_name=key).first()
+            if question is not None\
                     and value != "":
-                user_property_obj = UserProperty.query.\
+                user_property = UserProperty.query.\
                     filter_by(user_id=user_id).\
-                    filter_by(question_id=property_obj.id).\
+                    filter_by(question_id=question.id).\
                     first()
-                if user_property_obj is None:
+                if user_property is None:
                     user_property = UserProperty()
                     user_property.user_id = user_id
-                    user_property.question_id = property_obj.id
+                    user_property.question_id = question.id
                     user_property.value = float(value)
                     object_to_save.append(user_property)
                 else:
-                    user_property_obj.value = float(value)
-                    object_to_save.append(user_property_obj)
+                    user_property.value = float(value)
+                    object_to_save.append(user_property)
 
         BaseObject.check_and_save(*object_to_save)
