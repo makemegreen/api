@@ -6,3 +6,4 @@ import routes.activity
 import routes.storage
 import routes.proposition
 import routes.user_property
+import routes.health_check
