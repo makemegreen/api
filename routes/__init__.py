@@ -5,4 +5,4 @@ import routes.recommendation
 import routes.activity
 import routes.storage
 import routes.proposition
-import routes.property
+import routes.user_property

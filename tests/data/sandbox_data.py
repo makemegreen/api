@@ -40,45 +40,45 @@ users_data = [
 ]
 
 # PROPERTY
-properties_data = [
+question_data = [
     {
-        "property_name": "bath_or_shower",
+        "question_name": "bath_or_shower",
     },
     {
-        "property_name": "bath_shower_frequency",
+        "question_name": "bath_shower_frequency",
     },
     {
-        "property_name": "carpooling_frequency",
+        "question_name": "carpooling_frequency",
     },
     {
-        "property_name": "clothes_composition",
+        "question_name": "clothes_composition",
     },
     {
-        "property_name": "personal_vehicule_consumption",
+        "question_name": "personal_vehicule_consumption",
     },
     {
-        "property_name": "personal_vehicule_frequency",
+        "question_name": "personal_vehicule_frequency",
     },
     {
-        "property_name": "plain_frequency",
+        "question_name": "plain_frequency",
     },
     {
-        "property_name": "public_transportation_frequency",
+        "question_name": "public_transportation_frequency",
     },
     {
-        "property_name": "red_meat_frequency",
+        "question_name": "red_meat_frequency",
     },
     {
-        "property_name": "train_frequency",
+        "question_name": "train_frequency",
     },
     {
-        "property_name": "white_meat_frequency",
+        "question_name": "white_meat_frequency",
     },
     {
-        "property_name": "yellow_garbage",
+        "question_name": "yellow_garbage",
     },
     {
-        "property_name": "green_garbage",
+        "question_name": "green_garbage",
     },
 ]
 

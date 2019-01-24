@@ -10,7 +10,7 @@ class Question(BaseObject, Model):
 
     id = Column(Integer, primary_key=True)
 
-    property_name = Column(Text, unique=True, nullable=False)
+    question_name = Column(Text, unique=True, nullable=False)
 
     display_text = Column(Text)
 
