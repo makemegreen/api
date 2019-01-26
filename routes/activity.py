@@ -1,6 +1,8 @@
 """users routes"""
 from flask import current_app as app, jsonify
 from flask_login import current_user, login_required
+
+from domain.proposition import AcceptProposition
 from models import Activity
 from domain.activity import StartActivity, EndActivity, ValidateActivity, AlreadyStartedException, HoldActivity
 from collections import OrderedDict
@@ -45,6 +47,8 @@ def end_activity(activity_id):
 def start_activity(reco_id):
     try:
         recommendation_id = dehumanize(reco_id)
+
+        AcceptProposition().execute(recommendation_id, int(current_user.get_id()))
         StartActivity().execute(recommendation_id, int(current_user.get_id()))
     except AlreadyStartedException:
         return jsonify(dict({"status": "fail",

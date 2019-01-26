@@ -3,7 +3,7 @@ from functools import wraps
 
 import pytest
 from flask import Flask
-from models import User, UserProperty, Question, Recommendation, Footprint
+from models import User, UserProperty, Question, Recommendation, Footprint, Activity, Proposition
 from models.db import db
 from models.install import install_models
 
@@ -26,6 +26,8 @@ def clean_database(f):
     def decorated_function(app, *args, **kwargs):
         """ Order of deletions matters because of foreign key constraints """
         Footprint.query.delete()
+        Activity.query.delete()
+        Proposition.query.delete()
         Recommendation.query.delete()
         UserProperty.query.delete()
         Question.query.delete()

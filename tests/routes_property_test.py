@@ -20,7 +20,7 @@ def test_get_property_should_return_false_for_property_is_not_answered_already(a
     BaseObject.check_and_save(*obj_to_save)
 
     # When
-    property_request = req_with_auth(email='test@test.fr', password='test12345678')\
+    property_request = req_with_auth(email='test@test.fr', password='test12345678') \
         .get(API_URL + '/property')
 
     # Then

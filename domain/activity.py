@@ -51,7 +51,7 @@ class StartActivity:
     def __init__(self):
         pass
 
-    def execute(self, recommendation_id, user_id) -> Activity:
+    def execute(self, recommendation_id: int, user_id: int) -> Activity:
 
         if recommendation_id is None:
             raise BadArgException()
