@@ -1,5 +1,5 @@
 """User model"""
-from sqlalchemy import Column, Integer, ForeignKey, DateTime, Text, Enum, String, Float
+from sqlalchemy import Column, Integer, ForeignKey, DateTime, Text, Enum, String, Float, Boolean
 from datetime import datetime
 
 from models.db import Model
@@ -18,6 +18,8 @@ class Recommendation(BaseObject, Model):
     did_you_know = Column(Text, nullable=True)
     how_to = Column(Text, nullable=True)
     type = Column(Enum(FootprintType))
+
+    is_shared = Column(Boolean, nullable=False, default=False)
 
     date_created = Column(DateTime, nullable=True, default=datetime.utcnow)
 
