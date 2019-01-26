@@ -35,7 +35,7 @@ def reject_proposition(proposition_id):
     RejectProposition().execute(proposition_id=proposition_id)
     result = dict({"success": "yes"})
 
-    return jsonify(result)
+    return jsonify(result), 200
 
 
 def _serialize_recommendations(recommendations):
