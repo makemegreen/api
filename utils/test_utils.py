@@ -39,9 +39,11 @@ def create_footprint(user):
     footprint.water_footprint = 1000
 
 
-def create_recommendation(title='titre test de la reco'):
+def create_recommendation(title='Prends ton vélo', benefit=10.0, content='c''est simple !'):
     reco = Recommendation()
     reco.title = title
+    reco.benefit = benefit
+    reco.content = content
     return reco
 
 
