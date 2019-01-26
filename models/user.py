@@ -13,6 +13,8 @@ class User(BaseObject, Model):
     password = Column(Binary(60), nullable=False)
     username = Column(String(80), nullable=False)
 
+    home_mates = Column(Integer, nullable=True)
+
     footprints = db.relationship('Footprint', backref='user', lazy=True)
     activities = db.relationship('Activity', backref='user', lazy=True)
 
