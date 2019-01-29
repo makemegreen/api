@@ -1,4 +1,4 @@
-import pytest
+ import pytest
 from models import BaseObject
 from tests.conftest import clean_database
 from utils.test_utils import API_URL, req, create_reco, create_user

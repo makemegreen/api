@@ -58,7 +58,10 @@ def signup():
         footprint_obj.user_id = int(new_user.get_id())
         objects_to_save.append(footprint_obj)
 
-    # TODO: c'est pas beau mais c'était plus rapide :(
+    # Save the first footprint
+    BaseObject.check_and_save(*objects_to_save)
+
+    # Create firsts user propreties
     answers = footprints.get('answers')
     SaveUserProperties().execute(data=answers,user_id=new_user.id)
     # for key, value in answers.items():

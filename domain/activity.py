@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import func
 from sqlalchemy.sql import label
 
-from models import BaseObject, Footprint, User, Activity, ActivityStatus, Recommendation, FootprintType
+from models import BaseObject, Footprint, User, Activity, ActivityStatus, Recommendation, FootprintType, ActivityHistory
 from models.db import db
 
 
@@ -69,6 +69,8 @@ class StartActivity:
 
         BaseObject.check_and_save(activity)
 
+        HistoryActivity().execute(activity.id,"pending")
+
         return activity
 
 
@@ -85,6 +87,8 @@ class EndActivity:
         activity.set_date_end()
 
         BaseObject.check_and_save(activity)
+
+        HistoryActivity().execute(activity.id,"fail")
 
         return activity
 
@@ -117,6 +121,8 @@ class ValidateActivity:
 
         BaseObject.check_and_save(activity, new_footprint)
 
+        HistoryActivity().execute(activity.id,"success")
+
         return activity
 
 
@@ -148,6 +154,8 @@ class HoldActivity:
         new_footprint.set_date_created()
 
         BaseObject.check_and_save(activity, new_footprint)
+
+        HistoryActivity().execute(activity.id, "pending")
 
         return activity
 
@@ -203,3 +211,13 @@ class GetWeeklyProgress:
         result = sorted(result, key=lambda k: k['type'].value.get('label'))
 
         return result
+
+class HistoryActivity:
+    def __init__(self):
+        pass
+
+    def execute(self, activity_id, activity_state):
+        activity_history = ActivityHistory()
+        activity_history.set_activity_id(activity_id)
+        activity_history.set_activity_state(activity_state)
+        BaseObject.check_and_save(activity_history)
