@@ -6,12 +6,11 @@ from models.db import Model
 from models.base_object import BaseObject
 
 
-class UserProperty(BaseObject, Model):
+class UserPropertyHistory(BaseObject, Model):
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
 
-    question_id = Column(BigInteger, ForeignKey('question.id'), nullable=False)
+    user_property_id = Column(BigInteger, ForeignKey('user_property.id'), nullable=False)
 
     value = Column(Float, nullable=False)
 
@@ -20,6 +19,12 @@ class UserProperty(BaseObject, Model):
     def get_id(self):
         return str(self.id)
 
+    def set_userproperty_id(self, userproperty_id):
+        self.user_property_id = userproperty_id
+
+    def set_value(self, value):
+        self.value = value
+
     def errors(self):
-        errors = super(UserProperty, self).errors()
+        errors = super(UserPropertyHistory, self).errors()
         return errors

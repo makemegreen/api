@@ -1,6 +1,6 @@
 """ Proposition """
 
-from models import User, Proposition, PropositionStatus, BaseObject
+from models import User, Proposition, PropositionStatus, PropositionHistory, BaseObject
 
 
 class BadArgException(Exception):
@@ -31,7 +31,9 @@ class AcceptProposition:
 
         proposition.state = PropositionStatus.accepted
         BaseObject.check_and_save(proposition)
-
+        print(proposition.id)
+        print(proposition.state)
+        HistoryProposition().execute(proposition.id, "accepted")
 
 class RejectProposition:
     def __init__(self):
@@ -48,3 +50,16 @@ class RejectProposition:
 
         proposition.state = PropositionStatus.refused
         BaseObject.check_and_save(proposition)
+
+        HistoryProposition().execute(proposition.id, "refused")
+
+class HistoryProposition:
+    def __init__(self):
+        pass
+
+
+    def execute(self, proposition_id, proposition_state):
+        proposition_history = PropositionHistory()
+        proposition_history.set_proposition_id(proposition_id)
+        proposition_history.set_proposition_state(proposition_state)
+        BaseObject.check_and_save(proposition_history)

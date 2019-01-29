@@ -8,6 +8,8 @@ from models.recommendation import Recommendation
 from models.proposition import Proposition, PropositionStatus
 from models.user_property import UserProperty
 from models.question import Question
+from models.proposition_history import PropositionHistory
+from models.user_property_history import UserPropertyHistory
 
 __all__ = (
     'ApiErrors',
@@ -22,4 +24,6 @@ __all__ = (
     'PropositionStatus',
     'UserProperty',
     'Question',
+    'PropositionHistory',
+    'UserPropertyHistory'
 )

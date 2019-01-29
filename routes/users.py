@@ -3,6 +3,7 @@ from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required, logout_user, login_user
 
 from models import BaseObject, User, Footprint, UserProperty, Question
+from domain.user_property import SaveUserProperties
 from utils.includes import USER_INCLUDES
 from utils.credentials import get_user_with_credentials
 from utils.logger import logger
@@ -59,16 +60,17 @@ def signup():
 
     # TODO: c'est pas beau mais c'était plus rapide :(
     answers = footprints.get('answers')
-    for key, value in answers.items():
-        question_obj = Question.query.filter_by(question_name=key).first()
-        answer_obj = UserProperty()
-        answer_obj.user_id = int(new_user.get_id())
-        answer_obj.question_id = int(question_obj.id)
-        answer_obj.value = float(value)
-        BaseObject.check_and_save(answer_obj)
-        objects_to_save.append(answer_obj)
-
-    BaseObject.check_and_save(*objects_to_save)
+    SaveUserProperties().execute(data=answers,user_id=new_user.id)
+    # for key, value in answers.items():
+    #     question_obj = Question.query.filter_by(question_name=key).first()
+    #     answer_obj = UserProperty()
+    #     answer_obj.user_id = int(new_user.get_id())
+    #     answer_obj.question_id = int(question_obj.id)
+    #     answer_obj.value = float(value)
+    #     BaseObject.check_and_save(answer_obj)
+    #     objects_to_save.append(answer_obj)
+    #
+    #  BaseObject.check_and_save(*objects_to_save)
 
     login_user(new_user)
 
