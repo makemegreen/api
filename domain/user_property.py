@@ -1,5 +1,5 @@
 """ Property """
-from models import BaseObject, Question, UserProperty
+from models import BaseObject, Question, UserProperty, UserPropertyHistory
 
 
 class BadUserException(Exception):
@@ -55,3 +55,16 @@ class SaveUserProperties:
                     object_to_save.append(user_property)
 
         BaseObject.check_and_save(*object_to_save)
+        for user_property in object_to_save:
+            HistoryUserProperties().execute(user_property.id,user_property.value)
+
+class HistoryUserProperties:
+    def __init__(self):
+        pass
+
+
+    def execute(self, user_property_id, value):
+        user_property_history = UserPropertyHistory()
+        user_property_history.set_userproperty_id(user_property_id)
+        user_property_history.set_value(value)
+        BaseObject.check_and_save(user_property_history)
