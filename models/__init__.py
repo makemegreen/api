@@ -10,6 +10,7 @@ from models.user_property import UserProperty
 from models.question import Question
 from models.proposition_history import PropositionHistory
 from models.user_property_history import UserPropertyHistory
+from models.activity_history import ActivityHistory
 
 __all__ = (
     'ApiErrors',
@@ -25,5 +26,6 @@ __all__ = (
     'UserProperty',
     'Question',
     'PropositionHistory',
-    'UserPropertyHistory'
+    'UserPropertyHistory',
+    'ActivityHistory'
 )
