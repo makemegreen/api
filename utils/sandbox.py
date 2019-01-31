@@ -1,6 +1,7 @@
 """ sandbox """
 import random
 
+from models.data.app_data import question_data
 from tests.data import sandbox_data
 
 from models import *
@@ -22,17 +23,6 @@ def do_sandbox():
         else:
             users.append(query.one())
             test_user_id = int(users[0].get_id())
-
-    questions = []
-    query = Question.query
-    if query.count() == 0:
-        for question_data in sandbox_data.question_data:
-            question = Question(from_dict=question_data)
-            BaseObject.check_and_save(question)
-            print("Object: question CREATED")
-            questions.append(question)
-    else:
-        questions.append(query.all())
 
     footprints = []
     query = Footprint.query.filter_by(user_id=test_user_id)
@@ -59,15 +49,9 @@ def do_sandbox():
             recommendations.append(query.one())
 
     questions = []
-    for prop_data in sandbox_data.question_data:
+    for prop_data in question_data:
         query = Question.query.filter_by(question_name=prop_data['question_name'])
-        if query.count() == 0:
-            prop = Question(from_dict=prop_data)
-            BaseObject.check_and_save(prop)
-            print("Object: property CREATED")
-            questions.append(prop)
-        else:
-            questions.append(query.one())
+        questions.append(query.one())
 
     user_properties = []
     for idx_user in range(len(users)):

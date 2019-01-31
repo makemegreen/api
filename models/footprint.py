@@ -1,5 +1,5 @@
 """User model"""
-from sqlalchemy import Column, Integer, ForeignKey, DateTime, Enum, Float
+from sqlalchemy import Column, ForeignKey, DateTime, Enum, Float, BigInteger
 from datetime import datetime
 
 from models.db import Model
@@ -8,10 +8,7 @@ from models.footprint_type import FootprintType
 
 
 class Footprint(BaseObject, Model):
-
-    id = Column(Integer, primary_key=True)
-
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
 
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow)
 
