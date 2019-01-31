@@ -2,10 +2,10 @@
 import enum
 from collections import OrderedDict
 
-from sqlalchemy import Column, Integer, ForeignKey, DateTime, Enum, BigInteger, Float
+from sqlalchemy import Column, ForeignKey, DateTime, Enum, BigInteger, Float
 from datetime import datetime
 
-from models.db import Model, db
+from models.db import Model
 from models.base_object import BaseObject
 
 
@@ -30,8 +30,6 @@ class PropositionStatus(enum.Enum):
 
 
 class Proposition(BaseObject, Model):
-
-    id = Column(Integer, primary_key=True)
 
     user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
     recommendation_id = Column(BigInteger, ForeignKey('recommendation.id'), nullable=False)

@@ -1,4 +1,4 @@
-""" sandbow """
+""" sandbox """
 
 # USERS
 users_data = [
@@ -37,49 +37,6 @@ users_data = [
         "email": "ninnie4@ninnie.com",
         "password": "testpsswd"
     }
-]
-
-# PROPERTY
-question_data = [
-    {
-        "question_name": "bath_or_shower",
-    },
-    {
-        "question_name": "bath_shower_frequency",
-    },
-    {
-        "question_name": "carpooling_frequency",
-    },
-    {
-        "question_name": "clothes_composition",
-    },
-    {
-        "question_name": "personal_vehicule_consumption",
-    },
-    {
-        "question_name": "personal_vehicule_frequency",
-    },
-    {
-        "question_name": "plain_frequency",
-    },
-    {
-        "question_name": "public_transportation_frequency",
-    },
-    {
-        "question_name": "red_meat_frequency",
-    },
-    {
-        "question_name": "train_frequency",
-    },
-    {
-        "question_name": "white_meat_frequency",
-    },
-    {
-        "question_name": "yellow_garbage",
-    },
-    {
-        "question_name": "green_garbage",
-    },
 ]
 
 # FOOTPRINTS

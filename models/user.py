@@ -8,7 +8,6 @@ from models.base_object import BaseObject
 
 
 class User(BaseObject, Model):
-    id = Column(Integer, primary_key=True)
     email = Column(String(80), unique=True, nullable=False)
     password = Column(Binary(60), nullable=False)
     username = Column(String(80), nullable=False)

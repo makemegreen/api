@@ -62,8 +62,8 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE activity (
-  id integer NOT NULL,
-  user_id integer NOT NULL,
+  id bigint NOT NULL,
+  user_id bigint NOT NULL,
   recommendation_id bigint NOT NULL,
   date_start timestamp without time zone NOT NULL,
   date_end timestamp without time zone,
@@ -77,7 +77,7 @@ CREATE TABLE activity (
 --
 
 CREATE SEQUENCE activity_id_seq
-  AS integer
+  AS bigint
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE
@@ -97,8 +97,8 @@ ALTER SEQUENCE activity_id_seq OWNED BY activity.id;
 --
 
 CREATE TABLE footprint (
-  id integer NOT NULL,
-  user_id integer NOT NULL,
+  id bigint NOT NULL,
+  user_id bigint NOT NULL,
   date_created timestamp without time zone NOT NULL,
   type footprinttype,
   value double precision NOT NULL
@@ -110,7 +110,7 @@ CREATE TABLE footprint (
 --
 
 CREATE SEQUENCE footprint_id_seq
-  AS integer
+  AS bigint
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE
@@ -130,7 +130,7 @@ ALTER SEQUENCE footprint_id_seq OWNED BY footprint.id;
 --
 
 CREATE TABLE proposition (
-  id integer NOT NULL,
+  id bigint NOT NULL,
   user_id bigint NOT NULL,
   recommendation_id bigint NOT NULL,
   probability double precision NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE proposition (
 --
 
 CREATE SEQUENCE proposition_id_seq
-  AS integer
+  AS bigint
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE
@@ -165,7 +165,7 @@ ALTER SEQUENCE proposition_id_seq OWNED BY proposition.id;
 --
 
 CREATE TABLE question (
-  id integer NOT NULL,
+  id bigint NOT NULL,
   property_name text NOT NULL,
   display_text text,
   date_created timestamp without time zone NOT NULL
@@ -177,7 +177,7 @@ CREATE TABLE question (
 --
 
 CREATE SEQUENCE question_id_seq
-  AS integer
+  AS bigint
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE
@@ -197,7 +197,7 @@ ALTER SEQUENCE question_id_seq OWNED BY question.id;
 --
 
 CREATE TABLE recommendation (
-  id integer NOT NULL,
+  id bigint NOT NULL,
   title character varying(120) NOT NULL,
   content text NOT NULL,
   benefit double precision NOT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE recommendation (
 --
 
 CREATE SEQUENCE recommendation_id_seq
-  AS integer
+  AS bigint
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE
@@ -234,7 +234,7 @@ ALTER SEQUENCE recommendation_id_seq OWNED BY recommendation.id;
 --
 
 CREATE TABLE "user" (
-  id integer NOT NULL,
+  id bigint NOT NULL,
   email character varying(80) NOT NULL,
   password bytea NOT NULL,
   username character varying(80) NOT NULL,
@@ -247,7 +247,7 @@ CREATE TABLE "user" (
 --
 
 CREATE SEQUENCE user_id_seq
-  AS integer
+  AS bigint
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE
@@ -267,7 +267,7 @@ ALTER SEQUENCE user_id_seq OWNED BY "user".id;
 --
 
 CREATE TABLE user_property (
-  id integer NOT NULL,
+  id bigint NOT NULL,
   user_id bigint NOT NULL,
   question_id bigint NOT NULL,
   value double precision NOT NULL,
@@ -280,7 +280,7 @@ CREATE TABLE user_property (
 --
 
 CREATE SEQUENCE user_property_id_seq
-  AS integer
+  AS bigint
   START WITH 1
   INCREMENT BY 1
   NO MINVALUE

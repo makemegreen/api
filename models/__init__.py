@@ -8,6 +8,10 @@ from models.recommendation import Recommendation
 from models.proposition import Proposition, PropositionStatus
 from models.user_property import UserProperty
 from models.question import Question
+from models.category import Category
+from models.footprint_category import FootprintCategory
+from models.question_category import QuestionCategory
+from models.recommendation_category import RecommendationCategory
 
 __all__ = (
     'ApiErrors',
@@ -22,4 +26,8 @@ __all__ = (
     'PropositionStatus',
     'UserProperty',
     'Question',
+    'Category',
+    'FootprintCategory',
+    'QuestionCategory',
+    'RecommendationCategory',
 )
