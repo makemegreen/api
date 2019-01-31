@@ -11,6 +11,10 @@ from models.question import Question
 from models.proposition_history import PropositionHistory
 from models.user_property_history import UserPropertyHistory
 from models.activity_history import ActivityHistory
+from models.category import Category
+from models.footprint_category import FootprintCategory
+from models.question_category import QuestionCategory
+from models.recommendation_category import RecommendationCategory
 
 __all__ = (
     'ApiErrors',
@@ -28,4 +32,8 @@ __all__ = (
     'PropositionHistory',
     'UserPropertyHistory',
     'ActivityHistory'
+    'Category',
+    'FootprintCategory',
+    'QuestionCategory',
+    'RecommendationCategory',
 )

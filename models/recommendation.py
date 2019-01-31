@@ -1,5 +1,5 @@
 """User model"""
-from sqlalchemy import Column, Integer, ForeignKey, DateTime, Text, Enum, String, Float, Boolean
+from sqlalchemy import Column, DateTime, Text, Enum, String, Float, Boolean
 from datetime import datetime
 
 from models.db import Model
@@ -8,8 +8,6 @@ from models.footprint_type import FootprintType
 
 
 class Recommendation(BaseObject, Model):
-
-    id = Column(Integer, primary_key=True)
 
     title = Column(String(120), nullable=False)
     content = Column(Text, nullable=False)

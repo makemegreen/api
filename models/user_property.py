@@ -8,7 +8,6 @@ from models.base_object import BaseObject
 
 class UserProperty(BaseObject, Model):
 
-    id = Column(Integer, primary_key=True)
     user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
 
     question_id = Column(BigInteger, ForeignKey('question.id'), nullable=False)

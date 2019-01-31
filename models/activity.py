@@ -1,5 +1,5 @@
 """User model"""
-from sqlalchemy import Column, Integer, BigInteger, ForeignKey, DateTime, Text, Boolean, Enum
+from sqlalchemy import Column, BigInteger, ForeignKey, DateTime, Boolean, Enum
 from datetime import datetime
 
 from models.db import Model, db
@@ -20,9 +20,7 @@ class ActivityStatus(enum.Enum):
 
 
 class Activity(BaseObject, Model):
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
 
     recommendation_id = Column(BigInteger, ForeignKey('recommendation.id'), nullable=False)
     recommendation = db.relationship('Recommendation', foreign_keys=[recommendation_id], backref='activity')

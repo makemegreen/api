@@ -26,6 +26,11 @@ def patch_profile():
     return jsonify(user), 200
 
 
+@app.route("/test", methods=["GET"])
+def test():
+    return jsonify(Question.query.get(1).get_categories())
+
+
 @app.route("/users/signin", methods=["POST"])
 def signin():
     data = request.json
