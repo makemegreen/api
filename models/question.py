@@ -31,3 +31,8 @@ class Question(BaseObject, Model):
             result.append(category.label)
 
         return result
+
+    def get_footprint_type(self):
+        for category in self.categories:
+            print(category.type._asdict())
+            return category.type.value.get('label')
