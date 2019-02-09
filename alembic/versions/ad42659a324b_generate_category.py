@@ -65,9 +65,9 @@ def upgrade():
         sa.Column('date_created', sa.DateTime, nullable=False, default=datetime.utcnow),
      )
 
-    op.bulk_insert(category, app_data.category_data, multiinsert=False)
-    op.bulk_insert(question, app_data.question_data, multiinsert=False)
-    op.bulk_insert(question_category, app_data.question_category_data, multiinsert=False)
+    # op.bulk_insert(category, app_data.category_data, multiinsert=False)
+    # op.bulk_insert(question, app_data.final_question_data, multiinsert=False)
+    # op.bulk_insert(question_category, app_data., multiinsert=False)
 
 
 def downgrade():
