@@ -3,7 +3,9 @@ from functools import wraps
 
 import pytest
 from flask import Flask
-from models import User, UserProperty, Question, Recommendation, Footprint, Activity, Proposition
+from models import User, UserProperty, Question, Recommendation, Footprint, Activity, Proposition, QuestionCategory, \
+    Category
+from models.answer import Answer
 from models.db import db
 from models.install import install_models
 
@@ -30,7 +32,10 @@ def clean_database(f):
         Proposition.query.delete()
         Recommendation.query.delete()
         UserProperty.query.delete()
+        Answer.query.delete()
+        QuestionCategory.query.delete()
         Question.query.delete()
+        Category.query.delete()
         User.query.delete()
 
         return f(app, *args, **kwargs)
