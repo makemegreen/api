@@ -19,7 +19,6 @@ def get_profile():
 @app.route('/users/current', methods=['PATCH'])
 @login_required
 def patch_profile():
-    data = request.json.keys()
     current_user.populateFromDict(request.json)
     BaseObject.check_and_save(current_user)
     user = current_user._asdict(include=USER_INCLUDES)
@@ -59,28 +58,38 @@ def signup():
 
     objects_to_save = []
     for footprint in footprints.get('footprints'):
-        footprint_obj = Footprint(from_dict=footprint)
-        footprint_obj.user_id = int(new_user.get_id())
-        objects_to_save.append(footprint_obj)
+        if footprint.get('type') == 'home_mates':
+            new_user.home_mates = int(footprint.get('value'))
+            BaseObject.check_and_save(new_user)
+        else:
+            footprint_obj = Footprint(from_dict=footprint)
+            footprint_obj.user_id = int(new_user.get_id())
+            objects_to_save.append(footprint_obj)
 
-    # Save the first footprint
+    answers = footprints.get('answers')
+    logger.info(answers)
+
+    for key, value in answers.items():
+        question_obj = Question.query.filter_by(question_name=key).first()
+        if question_obj is None:
+            logger.info(key)
+        else:
+            if isinstance(value, int) \
+                    or isinstance(value, float):
+            # TODO: add answer id ?
+            # property_value = Answer.query.filter_by(label=)
+            answer_obj = UserProperty()
+            answer_obj.user_id = int(new_user.get_id())
+            answer_obj.question_id = int(question_obj.id)
+            answer_obj.value = float(value)
+            BaseObject.check_and_save(answer_obj)
+            objects_to_save.append(answer_obj)
+
     BaseObject.check_and_save(*objects_to_save)
 
-    # Create firsts user propreties
     answers = footprints.get('answers')
-    SaveUserProperties().execute(data=answers,user_id=new_user.id)
-    # for key, value in answers.items():
-    #     question_obj = Question.query.filter_by(question_name=key).first()
-    #     answer_obj = UserProperty()
-    #     answer_obj.user_id = int(new_user.get_id())
-    #     answer_obj.question_id = int(question_obj.id)
-    #     answer_obj.value = float(value)
-    #     BaseObject.check_and_save(answer_obj)
-    #     objects_to_save.append(answer_obj)
-    #
-    #  BaseObject.check_and_save(*objects_to_save)
+    SaveUserProperties().execute(data=answers, user_id=new_user.id)
 
     login_user(new_user)
 
     return jsonify(new_user._asdict(include=USER_INCLUDES)), 201
-

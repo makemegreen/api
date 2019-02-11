@@ -4,16 +4,18 @@ from collections import OrderedDict
 
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
-from domain.footprint import GetFootprints, ComputeFootprint, GetFootprintHistory
+from domain.footprint import GetFootprints, ComputeFootprint, GetFootprintHistory, ComputeInitialFootprint
 from domain.activity import GetActivityCount, GetWeeklyProgress
 from models import Activity, ActivityStatus, User
+from utils.logger import logger
 
 
 @app.route("/footprint/compute", methods=["POST"])
 def compute():
     data = request.json
     app.logger.info("Compute footprint data:")
-    footprints = ComputeFootprint().execute(data)
+    logger.info(data)
+    footprints = ComputeInitialFootprint().execute(data)
     result = {"footprints": footprints, "answers": data}
     app.logger.info(result)
 

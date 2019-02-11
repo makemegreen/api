@@ -201,7 +201,7 @@ answer_data = [
         "answer_name": "home_area",
         "display_text": "",
         "question_name": "home_area",
-        "value": 2.0,
+        "value": 1.0,
     },
     {
         "id": 3,
@@ -264,13 +264,6 @@ answer_data = [
         "answer_name": "home_electronic_devices",
         "display_text": "",
         "question_name": "home_electronic_devices",
-        "value": 1.0,
-    },
-    {
-        "id": 20,
-        "answer_name": "home_change_electronic_good",
-        "display_text": "",
-        "question_name": "home_change_electronic_good",
         "value": 1.0,
     },
     {
@@ -342,8 +335,14 @@ answer_data = [
         "display_text": "",
         "question_name": "food_percent_of_french_products",
         "value": 1.0,
-    }
-
+    },
+    {
+        "id": 20,
+        "answer_name": "home_change_electronic_good",
+        "display_text": "",
+        "question_name": "home_change_electronic_good",
+        "value": 1.0,
+    },
 ]
 
 
