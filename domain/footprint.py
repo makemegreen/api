@@ -1,7 +1,8 @@
 """ Footprint """
-from models import BaseObject, Footprint, User, FootprintType, Question, Category
+from models import BaseObject, Footprint, User, FootprintType
 from engine import dictionnary as info
 from models.answer import Answer
+from utils.logger import logger
 
 
 class BadFormInputException(Exception):
@@ -26,6 +27,8 @@ NUMBER_OF_WHITE_MEET_MEALS_PER_WEEK = 4
 NUMBER_OF_FISH_MEALS_PER_WEEK = 1
 NUMBER_OF_VEGGIE_MEALS_PER_WEEK = 2
 PERCENT_OF_FRENCH_PRODUCTS = 0,5
+HOME_CLOTHES_ORIGIN_COEFFICIENT_DEFAULT = 50
+
 
 class ComputeInitialFootprint:
 
@@ -43,26 +46,26 @@ class ComputeInitialFootprint:
         bath_consumption = 175 / 1000 * (132 + 262)
         shower_consumption = 55 / 1000 * (132 + 262)
 
-        number_of_baths = data.get('home_bath') * NUMBER_OF_WEEKS_PER_YEAR
-        number_of_showers = data.get('home_shower') * NUMBER_OF_WEEKS_PER_YEAR
+        number_of_baths = int(data.get('home_bath')) * NUMBER_OF_WEEKS_PER_YEAR
+        number_of_showers = int(data.get('home_shower')) * NUMBER_OF_WEEKS_PER_YEAR
 
         bath_and_shower_footprint = number_of_baths * bath_consumption + number_of_showers * shower_consumption
 
         return bath_and_shower_footprint / 1000
 
     def compute_home_electric_devices(self, data):
-        number_of_eletric_devices = data.get('home_electronic_devices')
+        number_of_eletric_devices = int(data.get('home_electronic_devices'))
         standby_device_consumption = 2.1681  # kg CO2
         home_electric_footprint = number_of_eletric_devices * standby_device_consumption
 
         return home_electric_footprint
 
     def compute_heat_footprint(self, data):
-        home_space = data.get('home_area')
+        home_space = int(data.get('home_area'))
         home_volume = home_space * 2
-        temperature_home = data.get('home_temperature')
+        temperature_home = int(data.get('home_temperature'))
         heat_type = data.get('home_heat_type')
-        heat_time_per_day = data.get('home_heat_time')
+        heat_time_per_day = int(data.get('home_heat_time'))
         heat_type_answer = Answer.query.filter_by(answer_name=heat_type).one()
         heat_type_value = heat_type_answer.value
 
@@ -76,43 +79,44 @@ class ComputeInitialFootprint:
 
     def compute_change_electronic_goods(self, data):
         one_electronic_good_production = 174
-        number_of_good_change_per_year = data.get('home_change_electronic_good')  # X appareil par an
+        number_of_good_change_per_year = int(data.get('home_change_electronic_good'))  # X appareil par an
         return one_electronic_good_production * number_of_good_change_per_year * (
                 1 - self.electronic_coefficient * 0.65)
 
     def compute_change_electric_goods(self, data):
         one_electric_good_production = 500
-        number_of_good_change_per_year = data.get('home_change_electric_good')  # X appareil par an
+        number_of_good_change_per_year = int(data.get('home_change_electric_good'))  # X appareil par an
         return one_electric_good_production * number_of_good_change_per_year * (1 - self.electronic_coefficient * 0.65)
 
     def compute_reconditioned_goods(self, data):
         reconditioned_goods = data.get('reconditioned_goods')
         if reconditioned_goods is not None:
             if 'reconditioned_textile' in reconditioned_goods:
-                self.textile_coefficient = 1
+                self.textile_coefficient = 1.0
             if 'reconditioned_electriconic_goods' in reconditioned_goods:
-                self.electronic_coefficient = 1
+                self.electronic_coefficient = 1.0
             if 'reconditioned_electric_goods' in reconditioned_goods:
-                self.electric_coefficient = 1
+                self.electric_coefficient = 1.0
 
     def compute_home_clothes_origin(self, data):
-        self.home_clothes_origin_coefficient = data.get('home_clothes_origin_coefficient') / 100
+        self.home_clothes_origin_coefficient = int(data.get('home_clothes_origin_coefficient',
+                                                            HOME_CLOTHES_ORIGIN_COEFFICIENT_DEFAULT)) / 100
 
     def compute_home_clothes_proportion(self, data):
         # TODO: see how we could get the proportion (answers ?)
-        proportion_coton = data.get('home_clothes_composition')
+        proportion_coton = int(data.get('home_clothes_composition'))
         proportion_other = 100 - proportion_coton
         self.home_clothes_proportion_coefficient = (proportion_other * 10 + proportion_coton * 20) \
                                                    / (proportion_other + proportion_coton)
 
     def compute_home_clothes_footprint(self, data):
-        number_of_clothes_per_month = data.get('home_clothes_number')
+        number_of_clothes_per_month = int(data.get('home_clothes_number'))
         print("before test")
-        test = (18.0 + 27 * (1 - 10/100 )) * 10 * 12 * (1 - 0 * 0.65)
+        test = (18.0 + 27 * (1 - 10 / 100)) * 10 * 12 * (1 - 0 * 0.65)
         print(test)
         home_clothes_footprint = (self.home_clothes_proportion_coefficient + 27 * (
                 1 - self.home_clothes_origin_coefficient)) * number_of_clothes_per_month * NUMBER_OF_MONTHS_PER_YEAR * (
-                                             1 - self.textile_coefficient * 0.65)
+                                         1 - self.textile_coefficient * 0.65)
         return home_clothes_footprint
 
     def compute_food_milk_products(self, data):
@@ -134,6 +138,10 @@ class ComputeInitialFootprint:
                                * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
 
         return food_meals_footprint
+
+    # def get_values(self, data):
+    #     self.home_clothes_origin_coefficient = data.get('home_clothes_origin_coefficient',
+    #                                                     int(HOME_CLOTHES_ORIGIN_COEFFICIENT_DEFAULT))
 
     def execute(self, data):
         if data is None:
@@ -165,21 +173,29 @@ class ComputeInitialFootprint:
         footprint_values['food'] = 0
         footprint_values['food'] += self.compute_food_milk_products(data)
         footprint_values['food'] += self.compute_food_meals(data)
+
+        home_footprint_value = int(footprint_values['energy'] \
+                                   + footprint_values['water'] \
+                                   + footprint_values['clothes'])
+
         result = [
             {
-                "type": "home",
-                "value": footprint_values['energy']
-                         + footprint_values['water']
-                         + footprint_values['goods']
-                         + footprint_values['clothes']
+                "type": {
+                    "label": "home"
+                },
+                "value": home_footprint_value
             },
             {
-                "type": "road",
+                "type": {
+                    "label": "road"
+                },
                 "value": 0
             },
             {
-                "type": "food",
                 "value": footprint_values['food']
+                "type": {
+                    "label": "food"
+                },
             },
             {
                 "type": "home_mates",
@@ -189,7 +205,7 @@ class ComputeInitialFootprint:
         print("==============================================================")
         print(footprint_values)
         print(result)
-        toto
+
         return result
 
 
