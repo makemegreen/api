@@ -20,6 +20,12 @@ NUMBER_OF_WEEKS_PER_YEAR = 52
 NUMBER_OF_DAYS_PER_YEAR = 365
 NUMBER_OF_MONTHS_PER_YEAR = 12
 
+NUMBER_OF_MILK_PRODUCTS_PER_WEEK = 1
+NUMBER_OF_RED_MEET_MEALS_PER_WEEK = 5
+NUMBER_OF_WHITE_MEET_MEALS_PER_WEEK = 4
+NUMBER_OF_FISH_MEALS_PER_WEEK = 1
+NUMBER_OF_VEGGIE_MEALS_PER_WEEK = 2
+PERCENT_OF_FRENCH_PRODUCTS = 0,5
 
 class ComputeInitialFootprint:
 
@@ -109,6 +115,26 @@ class ComputeInitialFootprint:
                                              1 - self.textile_coefficient * 0.65)
         return home_clothes_footprint
 
+    def compute_food_milk_products(self, data):
+        number_of_milk_products = float(data.get('food_milk_products', NUMBER_OF_MILK_PRODUCTS_PER_WEEK))
+
+        food_milk_products_footprint = number_of_milk_products  * 7 * 0.1 * 8.5 * 52
+
+        return food_milk_products_footprint
+
+    def compute_food_meals(self, data):
+        number_of_red_meet_meals = int(data.get('food_red_meet_meals', NUMBER_OF_RED_MEET_MEALS_PER_WEEK))
+        number_of_white_meet_meals = int(data.get('food_white_meet_meals', NUMBER_OF_WHITE_MEET_MEALS_PER_WEEK))
+        number_of_fish_meals = int(data.get('food_fish_meals', NUMBER_OF_FISH_MEALS_PER_WEEK))
+        number_of_veggie_meals = int(data.get('food_fish_meals', NUMBER_OF_VEGGIE_MEALS_PER_WEEK))
+        percent_french_products = int(data.get('food_percent_of_french_products', PERCENT_OF_FRENCH_PRODUCTS)) / 100
+
+        food_meals_footprint = 0.2 * 14 + (number_of_red_meet_meals * 12.78 + number_of_white_meet_meals * 2.3 \
+                               + number_of_fish_meals * 1.9 + number_of_veggie_meals * 0.9) \
+                               * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
+
+        return food_meals_footprint
+
     def execute(self, data):
         if data is None:
             raise BadFormInputException
@@ -136,6 +162,9 @@ class ComputeInitialFootprint:
 
         footprint_values['home_mates'] = self.compute_home_mates(data)
 
+        footprint_values['food'] = 0
+        footprint_values['food'] += self.compute_food_milk_products(data)
+        footprint_values['food'] += self.compute_food_meals(data)
         result = [
             {
                 "type": "home",
@@ -150,18 +179,17 @@ class ComputeInitialFootprint:
             },
             {
                 "type": "food",
-                "value": 0
+                "value": footprint_values['food']
             },
             {
                 "type": "home_mates",
                 "value": footprint_values['home_mates']
             }
         ]
-
+        print("==============================================================")
         print(footprint_values)
         print(result)
         toto
-
         return result
 
 
@@ -270,7 +298,6 @@ class GetFootprints:
                 footprints.append(footprint)
 
         return footprints
-
 
 class SaveFootprint:
     def __init__(self, footprint: Footprint):
