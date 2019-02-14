@@ -30,6 +30,12 @@ def test_compute_footprint(app):
             'home_clothes_composition': 80,
             'home_clothes_origin_coefficient': 20,
             'home_clothes_number': 10,
+            'food_milk_products':2,
+            'food_red_meet_meals':1,
+            'food_white_meet_meals':1,
+            'food_fish_meals':1,
+            'food_veggie_meals':1,
+            'food_percent_of_french_products':50
             }
     result = ComputeInitialFootprint().execute(data)
     assert result is not None
