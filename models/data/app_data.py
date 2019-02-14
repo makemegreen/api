@@ -100,7 +100,50 @@ final_question_data = [
         "category_name": "energy",
         "id": 21,
         "display_text": "A quelle température moyenne est chauffé votre logement ?"
+    },
+    {
+        "question_name": "food_milk_products",
+        "category_name": "meal",
+        "id": 35,
+        "display_text": "A quelle fréquence consommez-vous du lait ou des produits laitiers tels que le yogourt, le fromage, le beurre ou la crème?"
+    },
+    {
+        "question_name": "food_red_meet_meals",
+        "category_name": "meal",
+        "id": 36,
+        "display_text": "A quelle fréquence mangez-vous des plats contenant de la viande rouge ?"
+    },
+    {
+        "question_name": "food_white_meet_meals",
+        "category_name": "meal",
+        "id": 59,
+        "display_text": "A quelle fréquence mangez-vous des plats contenant de la viande blanche"
+    },
+    {
+        "question_name": "food_fish_meals",
+        "category_name": "meal",
+        "id": 60,
+        "display_text": "A quelle fréquence mangez-vous des plats contenant du poisson ?"
+    },
+    {
+        "question_name": "food_veggie_meals",
+        "category_name": "meal",
+        "id": 61,
+        "display_text": "A quelle fréquence mangez-vous des plats végétariens ?"
+    },
+    {
+        "question_name": "food_percent_of_french_products",
+        "category_name": "food_origin",
+        "id": 62,
+        "display_text": "Sur l’ensemble des produits (nourritures) que vous achetez, quelle proportion provient de la France?"
+    },
+    {
+        "question_name": "food_percent_of_french_products",
+        "category_name": "food_origin",
+        "id": 62,
+        "display_text": "Sur l’ensemble des produits (nourritures) que vous achetez, quelle proportion provient de la France?"
     }
+
 ]
 
 answer_data = [
@@ -257,6 +300,48 @@ answer_data = [
         "display_text": "",
         "question_name": "home_clothes_number",
         "value": 1.0,
+    },
+    {
+        "id": 35,
+        "answer_name": "food_milk_products",
+        "display_text": "",
+        "question_name": "food_milk_products",
+        "value": 1.0,
+    },
+    {
+        "id": 36,
+        "answer_name": "food_red_meet_meals",
+        "display_text": "",
+        "question_name": "food_red_meet_meals",
+        "value": 1.0,
+    },
+    {
+        "id": 59,
+        "answer_name": "food_white_meet_meals",
+        "display_text": "",
+        "question_name": "food_white_meet_meals",
+        "value": 1.0,
+    },
+    {
+        "id": 60,
+        "answer_name": "food_fish_meals",
+        "display_text": "",
+        "question_name": "food_fish_meals",
+        "value": 1.0,
+    },
+    {
+        "id": 61,
+        "answer_name": "food_veggie_meals",
+        "display_text": "",
+        "question_name": "food_veggie_meals",
+        "value": 1.0,
+    },
+    {
+        "id": 62,
+        "answer_name": "food_percent_of_french_products",
+        "display_text": "",
+        "question_name": "food_percent_of_french_products",
+        "value": 1.0,
     }
 
 ]
@@ -332,6 +417,38 @@ question_data = [
         "question_name": "green_garbage",
         "display_text": "",
     },
+
+    {
+        "id": 35,
+        "question_name": "food_milk_products",
+        "display_text": "",
+    },
+    {
+        "id": 36,
+        "answer_name": "food_red_meet_meals",
+        "display_text": "",
+    },
+    {
+        "id": 59,
+        "answer_name": "food_white_meet_meals",
+        "display_text": "",
+    },
+    {
+        "id": 60,
+        "answer_name": "food_fish_meals",
+        "display_text": "",
+    },
+    {
+        "id": 61,
+        "answer_name": "food_veggie_meals",
+        "display_text": "",
+    },
+    {
+        "id": 62,
+        "answer_name": "food_percent_of_french_products",
+        "display_text": "",
+    }
+
 ]
 
 # CATEGORY
@@ -381,6 +498,7 @@ category_data = [
         "label": "going_out",
         "type": "road",
     },
+
 ]
 
 # new_question_data = [
