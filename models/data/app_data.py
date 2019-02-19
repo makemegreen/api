@@ -16,6 +16,30 @@
 
 final_question_data = [
     {
+        "question_name": "road_going_out",
+        "category_name": "going_out",
+        "id": 34,
+        "display_text": "A quelle fréquence faites vous appel à un taxi / uber / chauffeur privé ? (par mois)"
+    },
+    {
+        "question_name": "road_going_on_holiday",
+        "category_name": "going_on_holiday",
+        "id": 33,
+        "display_text": "En moyenne combien d'heures voyagez vous par an ?"
+    },
+    {
+        "question_name": "road_everyday_transport_type",
+        "category_name": "going_to_work",
+        "id": 31,
+        "display_text": "Quel est votre moyen de transport principal (trajets domicile travail par ex) ?"
+    },
+    {
+        "question_name": "road_everyday_distance",
+        "category_name": "going_to_work",
+        "id": 32,
+        "display_text": "Quelle distance moyenne parcourez-vous avec ce moyen de transport ? (en km par jour)"
+    },
+    {
         "question_name": "home_clothes_number",
         "category_name": "clothes",
         "id": 30,
@@ -336,8 +360,112 @@ answer_data = [
         "question_name": "home_change_electronic_good",
         "value": 1.0,
     },
+    {
+        "id": 63,
+        "answer_name": "road_everyday_distance",
+        "display_text": "",
+        "question_name": "road_everyday_distance",
+        "value": 1.0,
+    },
+    {
+        "id": 64,
+        "answer_name": "by_foot",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 0.0,
+    },
+    {
+        "id": 65,
+        "answer_name": "by_bus",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 95.0,
+    },
+    {
+        "id": 66,
+        "answer_name": "by_subway",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 3.9,
+    },
+    {
+        "id": 67,
+        "answer_name": "by_tgv",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 3.2,
+    },
+    {
+        "id": 67,
+        "answer_name": "by_ter",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 29.0,
+    },
+    {
+        "id": 68,
+        "answer_name": "by_intercite",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 12.0,
+    },
+    {
+        "id": 69,
+        "answer_name": "by_car_gas",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 117.0,
+    },
+    {
+        "id": 70,
+        "answer_name": "by_car_diesel",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 110.0,
+    },
+    {
+        "id": 71,
+        "answer_name": "by_car_electric",
+        "display_text": "",
+        "question_name": "road_everyday_transport_type",
+        "value": 1.0,
+    },
+    {
+        "id": 72,
+        "answer_name": "road_going_on_holiday_plane",
+        "display_text": "",
+        "question_name": "road_going_on_holiday",
+        "value": 285.0,
+    },
+    {
+        "id": 73,
+        "answer_name": "road_going_on_holiday_tgv",
+        "display_text": "",
+        "question_name": "road_going_on_holiday",
+        "value": 3.2,
+    },
+    {
+        "id": 74,
+        "answer_name": "road_going_on_holiday_ter",
+        "display_text": "",
+        "question_name": "road_going_on_holiday",
+        "value": 29.0,
+    },
+    {
+        "id": 75,
+        "answer_name": "road_going_on_holiday_car",
+        "display_text": "",
+        "question_name": "road_going_on_holiday",
+        "value": 110.0,
+    },
+    {
+        "id": 76,
+        "answer_name": "road_going_out",
+        "display_text": "",
+        "question_name": "road_going_out",
+        "value": 110.0,
+    },
 ]
-
 
 # CATEGORY
 category_data = [
@@ -384,6 +512,11 @@ category_data = [
     {
         "id": 10,
         "label": "going_out",
+        "type": "road",
+    },
+    {
+        "id": 11,
+        "label": "going_on_holiday",
         "type": "road",
     },
 
