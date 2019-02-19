@@ -29,6 +29,10 @@ NUMBER_OF_VEGGIE_MEALS_PER_WEEK = 2
 PERCENT_OF_FRENCH_PRODUCTS = 0, 5
 HOME_CLOTHES_ORIGIN_COEFFICIENT_DEFAULT = 50
 
+PLANE_SPEED = 860
+TGV_SPEED = 320
+TER_SPEED = 160
+CAR_SPEED = 80
 
 class ComputeInitialFootprint:
 
@@ -76,6 +80,44 @@ class ComputeInitialFootprint:
         heat_footprint = heat_type_value * home_heat_consumption
 
         return heat_footprint / 1000
+
+    def compute_everyday_transportation(self, data):
+        transport_type = data.get('road_everyday_transport_type')
+        transport_distance_by_day = int(data.get('road_everyday_distance'))
+        transport_type_answer = Answer.query.filter_by(answer_name=transport_type).one()
+        transport_type_value = transport_type_answer.value
+
+        transport_consumption = transport_distance_by_day * transport_type_value * NUMBER_OF_DAYS_PER_YEAR
+        return transport_consumption / 1000
+
+    def compute_holiday_transportation(self, data):
+        hours_transport_plane = data.get('road_going_on_holiday_plane')
+        hours_transport_tgv = data.get('road_going_on_holiday_tgv')
+        hours_transport_ter = data.get('road_going_on_holiday_ter')
+        hours_transport_car = data.get('road_going_on_holiday_car')
+
+        coeff_transport_plane = Answer.query.filter_by(answer_name='road_going_on_holiday_plane').one().value
+        coeff_transport_tgv = Answer.query.filter_by(answer_name='road_going_on_holiday_tgv').one().value
+        coeff_transport_ter = Answer.query.filter_by(answer_name='road_going_on_holiday_ter').one().value
+        coeff_transport_car = Answer.query.filter_by(answer_name='road_going_on_holiday_car').one().value
+
+        # convert hours to distance
+        plane_consumption = hours_transport_plane * PLANE_SPEED * coeff_transport_plane
+        tgv_consumption = hours_transport_tgv * TGV_SPEED * coeff_transport_tgv
+        ter_consumption = hours_transport_ter * TER_SPEED * coeff_transport_ter
+        car_consumption = hours_transport_car * CAR_SPEED * coeff_transport_car
+
+        holiday_consumption = plane_consumption + tgv_consumption + ter_consumption + car_consumption
+
+        return holiday_consumption / 1000
+
+    def compute_going_out_transportation(self, data):
+        frequence_going_out_per_month = data.get('road_going_out')
+        going_out_coefficient = Answer.query.filter_by(answer_name='road_going_out').one().value
+        going_out_distance = int(data.get('road_everyday_distance')) / 2 # we assume it's a way back
+        going_out_consumption = going_out_distance * going_out_coefficient * frequence_going_out_per_month * NUMBER_OF_MONTHS_PER_YEAR
+
+        return going_out_consumption / 1000
 
     def compute_change_electronic_goods(self, data):
         one_electronic_good_production = 174
@@ -174,6 +216,11 @@ class ComputeInitialFootprint:
         footprint_values['food'] += self.compute_food_milk_products(data)
         footprint_values['food'] += self.compute_food_meals(data)
 
+        footprint_values['road'] = 0
+        footprint_values['road'] += self.compute_everyday_transportation(data)
+        footprint_values['road'] += self.compute_holiday_transportation(data)
+        footprint_values['road'] += self.compute_going_out_transportation(data)
+
         home_footprint_value = int(footprint_values['energy'] \
                                    + footprint_values['water'] \
                                    + footprint_values['clothes'])
@@ -189,13 +236,13 @@ class ComputeInitialFootprint:
                 "type": {
                     "label": "road"
                 },
-                "value": 0
+                "value": footprint_values['road']
             },
             {
-                "value": footprint_values['food'],
                 "type": {
                     "label": "food"
                 },
+                "value": footprint_values['food']
             },
             {
                 "type": "home_mates",
@@ -206,7 +253,10 @@ class ComputeInitialFootprint:
         print(footprint_values)
         print(result)
 
+        toto
+
         return result
+
 
 
 class ComputeFootprint:
