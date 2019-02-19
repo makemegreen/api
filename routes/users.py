@@ -2,8 +2,8 @@
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required, logout_user, login_user
 
-from models import BaseObject, User, Footprint, UserProperty, Question
-from domain.user_property import SaveUserProperties
+from models import BaseObject, User, Footprint, UserProperty, Question, FootprintDetails, FootprintType
+from models.answer import Answer
 from utils.includes import USER_INCLUDES
 from utils.credentials import get_user_with_credentials
 from utils.logger import logger
@@ -19,6 +19,7 @@ def get_profile():
 @app.route('/users/current', methods=['PATCH'])
 @login_required
 def patch_profile():
+    data = request.json.keys()
     current_user.populateFromDict(request.json)
     BaseObject.check_and_save(current_user)
     user = current_user._asdict(include=USER_INCLUDES)
@@ -67,43 +68,35 @@ def signup():
             objects_to_save.append(footprint_obj)
 
     answers = footprints.get('answers')
+    details = footprints.get('details')
+
+    logger.info("details")
+    logger.info(details)
+
+    logger.info("answers")
     logger.info(answers)
 
-    for key, value in answers.items():
-        question_obj = Question.query.filter_by(question_name=key).first()
-        if question_obj is None:
-            if isinstance(value, int) \
-                    or isinstance(value, float):
-<<<<<<< 89c68e1890fdac34152f06f76b8556dc59074939
-            # TODO: add answer id ?
-            # property_value = Answer.query.filter_by(label=)
-            answer_obj = UserProperty()
-            answer_obj.user_id = int(new_user.get_id())
-            answer_obj.question_id = int(question_obj.id)
-            answer_obj.value = float(value)
-            BaseObject.check_and_save(answer_obj)
-            objects_to_save.append(answer_obj)
-=======
-                # TODO: add answer id ?
-                property_value = Answer.query.filter_by(label=key).first()
-                question_obj = Question.query.get(property_value.question_id)
+    for footprint_detail in details:
+        logger.info(footprint_detail)
+        footprint_details = FootprintDetails()
+        footprint_details.user_id = int(new_user.get_id())
+        footprint_details.category = footprint_detail['category']
+        footprint_details.value = float(footprint_detail['value'])
+        footprint_details.type = FootprintType({'label': footprint_detail['type']})
+        objects_to_save.append(footprint_details)
 
-        if question_obj is None:
-            logger.info("Form seems to be broken: ", key)
-            raise Exception
+    for key, value in answers.items():
+        property_value = Answer.query.filter_by(answer_name=key).first()
+        if property_value is None:
+            logger.info("Form seems to be broken: %s" % key)
+            continue
+
         answer_obj = UserProperty()
         answer_obj.user_id = int(new_user.get_id())
-        answer_obj.question_id = int(question_obj.id)
-        answer_obj.value = float(value)
-        BaseObject.check_and_save(answer_obj)
+        answer_obj.answer_id = int(property_value.id)
         objects_to_save.append(answer_obj)
->>>>>>> rebase
 
     BaseObject.check_and_save(*objects_to_save)
-
-    answers = footprints.get('answers')
-    SaveUserProperties().execute(data=answers, user_id=new_user.id)
-
     login_user(new_user)
 
     return jsonify(new_user._asdict(include=USER_INCLUDES)), 201

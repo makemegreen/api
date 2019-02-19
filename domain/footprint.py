@@ -91,10 +91,10 @@ class ComputeInitialFootprint:
         return transport_consumption / 1000
 
     def compute_holiday_transportation(self, data):
-        hours_transport_plane = data.get('road_going_on_holiday_plane')
-        hours_transport_tgv = data.get('road_going_on_holiday_tgv')
-        hours_transport_ter = data.get('road_going_on_holiday_ter')
-        hours_transport_car = data.get('road_going_on_holiday_car')
+        hours_transport_plane = int(data.get('road_going_on_holiday_plane'))
+        hours_transport_tgv = int(data.get('road_going_on_holiday_tgv'))
+        hours_transport_ter = int(data.get('road_going_on_holiday_ter'))
+        hours_transport_car = int(data.get('road_going_on_holiday_car'))
 
         coeff_transport_plane = Answer.query.filter_by(answer_name='road_going_on_holiday_plane').one().value
         coeff_transport_tgv = Answer.query.filter_by(answer_name='road_going_on_holiday_tgv').one().value
@@ -112,7 +112,7 @@ class ComputeInitialFootprint:
         return holiday_consumption / 1000
 
     def compute_going_out_transportation(self, data):
-        frequence_going_out_per_month = data.get('road_going_out')
+        frequence_going_out_per_month = int(data.get('road_going_out'))
         going_out_coefficient = Answer.query.filter_by(answer_name='road_going_out').one().value
         going_out_distance = int(data.get('road_everyday_distance')) / 2 # we assume it's a way back
         going_out_consumption = going_out_distance * going_out_coefficient * frequence_going_out_per_month * NUMBER_OF_MONTHS_PER_YEAR
@@ -164,7 +164,7 @@ class ComputeInitialFootprint:
     def compute_food_milk_products(self, data):
         number_of_milk_products = float(data.get('food_milk_products', NUMBER_OF_MILK_PRODUCTS_PER_WEEK))
 
-        food_milk_products_footprint = number_of_milk_products * 7 * 0.1 * 8.5 * 52
+        food_milk_products_footprint = number_of_milk_products * 7 * 0.1 * 8.5 * NUMBER_OF_WEEKS_PER_YEAR
 
         return food_milk_products_footprint
 
@@ -180,6 +180,7 @@ class ComputeInitialFootprint:
                                * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
 
         return food_meals_footprint
+
 
     # def get_values(self, data):
     #     self.home_clothes_origin_coefficient = data.get('home_clothes_origin_coefficient',
@@ -212,18 +213,28 @@ class ComputeInitialFootprint:
 
         footprint_values['home_mates'] = self.compute_home_mates(data)
 
-        footprint_values['food'] = 0
-        footprint_values['food'] += self.compute_food_milk_products(data)
-        footprint_values['food'] += self.compute_food_meals(data)
+        footprint_values['meal'] = 0
+        footprint_values['meal'] += self.compute_food_milk_products(data)
+        footprint_values['meal'] += self.compute_food_meals(data)
 
-        footprint_values['road'] = 0
-        footprint_values['road'] += self.compute_everyday_transportation(data)
-        footprint_values['road'] += self.compute_holiday_transportation(data)
-        footprint_values['road'] += self.compute_going_out_transportation(data)
+        footprint_values['going_to_work'] = 0
+        footprint_values['going_to_work'] += self.compute_everyday_transportation(data)
+
+        footprint_values['going_on_holiday'] = 0
+        footprint_values['going_on_holiday'] += self.compute_holiday_transportation(data)
+
+        footprint_values['going_out'] = 0
+        footprint_values['going_out'] += self.compute_going_out_transportation(data)
 
         home_footprint_value = int(footprint_values['energy'] \
                                    + footprint_values['water'] \
                                    + footprint_values['clothes'])
+
+        road_footprint_value = int(footprint_values['going_to_work'] \
+                                   + footprint_values['going_on_holiday'] \
+                                   + footprint_values['going_out'])
+
+        food_footprint_value = int(footprint_values['meal'])
 
         result = [
             {
@@ -236,13 +247,13 @@ class ComputeInitialFootprint:
                 "type": {
                     "label": "road"
                 },
-                "value": footprint_values['road']
+                "value": road_footprint_value
             },
             {
                 "type": {
                     "label": "food"
                 },
-                "value": footprint_values['food']
+                "value": food_footprint_value
             },
             {
                 "type": "home_mates",
@@ -251,12 +262,10 @@ class ComputeInitialFootprint:
         ]
         print("==============================================================")
         print(footprint_values)
+
         print(result)
 
-        toto
-
         return result
-
 
 
 class ComputeFootprint:

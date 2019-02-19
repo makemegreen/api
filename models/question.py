@@ -9,7 +9,6 @@ from models.base_object import BaseObject
 
 
 class Question(BaseObject, Model):
-
     question_name = Column(Text, unique=True, nullable=False)
 
     display_text = Column(Text)
@@ -17,6 +16,9 @@ class Question(BaseObject, Model):
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     categories = relationship('Category', secondary='question_category')
+
+    answers = relationship('Answer',
+                           back_populates="question")
 
     def get_id(self):
         return str(self.id)
