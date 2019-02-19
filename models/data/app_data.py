@@ -117,7 +117,7 @@ final_question_data = [
         "question_name": "food_white_meet_meals",
         "category_name": "meal",
         "id": 59,
-        "display_text": "A quelle fréquence mangez-vous des plats contenant de la viande blanche"
+        "display_text": "A quelle fréquence mangez-vous des plats contenant de la viande blanche ?"
     },
     {
         "question_name": "food_fish_meals",
@@ -135,15 +135,8 @@ final_question_data = [
         "question_name": "food_percent_of_french_products",
         "category_name": "food_origin",
         "id": 62,
-        "display_text": "Sur l’ensemble des produits (nourritures) que vous achetez, quelle proportion provient de la France?"
-    },
-    {
-        "question_name": "food_percent_of_french_products",
-        "category_name": "food_origin",
-        "id": 62,
-        "display_text": "Sur l’ensemble des produits (nourritures) que vous achetez, quelle proportion provient de la France?"
+        "display_text": "Sur l’ensemble des produits (nourritures) que vous achetez, quelle proportion provient de la France ?"
     }
-
 ]
 
 answer_data = [
@@ -346,110 +339,6 @@ answer_data = [
 ]
 
 
-
-
-
-# QUESTION
-question_data = [
-    {
-        "id": 1,
-        "question_name": "bath_or_shower",
-        "display_text": "",
-    },
-    {
-        "id": 2,
-        "question_name": "bath_shower_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 3,
-        "question_name": "carpooling_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 4,
-        "question_name": "clothes_composition",
-        "display_text": "",
-    },
-    {
-        "id": 5,
-        "question_name": "personal_vehicule_consumption",
-        "display_text": "",
-    },
-    {
-        "id": 6,
-        "question_name": "personal_vehicule_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 7,
-        "question_name": "plain_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 8,
-        "question_name": "public_transportation_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 9,
-        "question_name": "red_meat_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 10,
-        "question_name": "train_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 11,
-        "question_name": "white_meat_frequency",
-        "display_text": "",
-    },
-    {
-        "id": 12,
-        "question_name": "yellow_garbage",
-        "display_text": "",
-    },
-    {
-        "id": 13,
-        "question_name": "green_garbage",
-        "display_text": "",
-    },
-
-    {
-        "id": 35,
-        "question_name": "food_milk_products",
-        "display_text": "",
-    },
-    {
-        "id": 36,
-        "answer_name": "food_red_meet_meals",
-        "display_text": "",
-    },
-    {
-        "id": 59,
-        "answer_name": "food_white_meet_meals",
-        "display_text": "",
-    },
-    {
-        "id": 60,
-        "answer_name": "food_fish_meals",
-        "display_text": "",
-    },
-    {
-        "id": 61,
-        "answer_name": "food_veggie_meals",
-        "display_text": "",
-    },
-    {
-        "id": 62,
-        "answer_name": "food_percent_of_french_products",
-        "display_text": "",
-    }
-
-]
-
 # CATEGORY
 category_data = [
     {
@@ -499,32 +388,3 @@ category_data = [
     },
 
 ]
-
-# new_question_data = [
-#     {
-#         "id": 1,
-#         "question_name": "heater_type",
-#         "display_text": "",
-#         "is_coefficient": False,
-#         "coefficients": ['surface_home', 'home_temperature']
-#     },
-#     {
-#         "id": 2,
-#         "question_name": "surface_home",
-#         "display_text": "",
-#         "is_coefficient": True,
-#     },
-#     {
-#         "id": 3,
-#         "question_name": "home_temperature",
-#         "display_text": "",
-#         "is_coefficient": True,
-#     },
-#     {
-#         "id": 4,
-#         "question_name": "food_type",
-#         "display_text": "",
-#         "is_coefficient": False,
-#         "coefficients": []
-#     }
-# ]

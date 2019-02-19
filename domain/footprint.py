@@ -26,7 +26,7 @@ NUMBER_OF_RED_MEET_MEALS_PER_WEEK = 5
 NUMBER_OF_WHITE_MEET_MEALS_PER_WEEK = 4
 NUMBER_OF_FISH_MEALS_PER_WEEK = 1
 NUMBER_OF_VEGGIE_MEALS_PER_WEEK = 2
-PERCENT_OF_FRENCH_PRODUCTS = 0,5
+PERCENT_OF_FRENCH_PRODUCTS = 0, 5
 HOME_CLOTHES_ORIGIN_COEFFICIENT_DEFAULT = 50
 
 
@@ -122,7 +122,7 @@ class ComputeInitialFootprint:
     def compute_food_milk_products(self, data):
         number_of_milk_products = float(data.get('food_milk_products', NUMBER_OF_MILK_PRODUCTS_PER_WEEK))
 
-        food_milk_products_footprint = number_of_milk_products  * 7 * 0.1 * 8.5 * 52
+        food_milk_products_footprint = number_of_milk_products * 7 * 0.1 * 8.5 * 52
 
         return food_milk_products_footprint
 
@@ -134,7 +134,7 @@ class ComputeInitialFootprint:
         percent_french_products = int(data.get('food_percent_of_french_products', PERCENT_OF_FRENCH_PRODUCTS)) / 100
 
         food_meals_footprint = 0.2 * 14 + (number_of_red_meet_meals * 12.78 + number_of_white_meet_meals * 2.3 \
-                               + number_of_fish_meals * 1.9 + number_of_veggie_meals * 0.9) \
+                                           + number_of_fish_meals * 1.9 + number_of_veggie_meals * 0.9) \
                                * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
 
         return food_meals_footprint
@@ -192,7 +192,7 @@ class ComputeInitialFootprint:
                 "value": 0
             },
             {
-                "value": footprint_values['food']
+                "value": footprint_values['food'],
                 "type": {
                     "label": "food"
                 },
@@ -314,6 +314,7 @@ class GetFootprints:
                 footprints.append(footprint)
 
         return footprints
+
 
 class SaveFootprint:
     def __init__(self, footprint: Footprint):
