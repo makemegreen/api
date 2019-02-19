@@ -73,26 +73,33 @@ def signup():
     logger.info(answers)
 
     for key, value in answers.items():
-        question_obj = Question.query.filter_by(question_name=key).first()
-        if question_obj is None:
-            if isinstance(value, int) \
-                    or isinstance(value, float):
-                # TODO: add answer id ?
-                property_value = Answer.query.filter_by(label=key).first()
-                question_obj = Question.query.get(property_value.question_id)
+        property_value = Answer.query.filter_by(answer_name=key).first()
+        if property_value is None:
+            logger.info("Form seems to be broken: %s" % key)
+            continue
+        # question_obj = Question.query.filter_by(question_name=key).first()
+        # property_value = None
+        # if question_obj is None:
+        #     property_value = Answer.query.filter_by(label=key).first()
+        #     question_obj = Question.query.get(property_value.question_id)
+        #
+        #     if question_obj is None:
+        #         logger.info("Form seems to be broken: %s" % key)
+        #         # We execpt at least 2 elements (home_clothes_composition_polyester and home_mates)
+        #         continue
+        #
+        # if property_value is None:
+        #     property_value = Answer.query.filter_by(label=key).first()
 
-        if question_obj is None:
-            logger.info("Form seems to be broken: ", key)
-            raise Exception
+        logger.info("==============================")
+        logger.info(key)
         answer_obj = UserProperty()
         answer_obj.user_id = int(new_user.get_id())
-        answer_obj.question_id = int(question_obj.id)
-        answer_obj.value = float(value)
+        answer_obj.answer_id = int(property_value.id)
         BaseObject.check_and_save(answer_obj)
         objects_to_save.append(answer_obj)
 
     BaseObject.check_and_save(*objects_to_save)
-
     login_user(new_user)
 
     return jsonify(new_user._asdict(include=USER_INCLUDES)), 201

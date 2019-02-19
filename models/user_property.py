@@ -2,17 +2,21 @@
 from sqlalchemy import Column, Integer, BigInteger, ForeignKey, DateTime, Float
 from datetime import datetime
 
+from sqlalchemy.orm import relationship
+
 from models.db import Model
 from models.base_object import BaseObject
 
 
 class UserProperty(BaseObject, Model):
-
     user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
 
-    question_id = Column(BigInteger, ForeignKey('question.id'), nullable=False)
+    answer_id = Column(BigInteger, ForeignKey('answer.id'), nullable=False)
 
-    value = Column(Float, nullable=False)
+    answer = relationship('Answer',
+                          foreign_keys=[answer_id])
+
+    # value = Column(Float, nullable=False)
 
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow())
 

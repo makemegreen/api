@@ -14,7 +14,7 @@ def install_models():
     if IS_DEV:
         db.create_all()
         db.session.commit()
-        # install_models_data()
+        install_models_data()
 
 
 def install_models_data():

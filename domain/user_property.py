@@ -1,5 +1,6 @@
 """ Property """
 from models import BaseObject, Question, UserProperty
+from utils.logger import logger
 
 
 class BadUserException(Exception):
@@ -22,11 +23,16 @@ class GetUserProperties:
         questions = Question.query.all()
         obj = dict()
         for question in questions:
-            user_answers = UserProperty.query. \
-                filter_by(user_id=user_id). \
-                filter_by(question_id=question.id). \
-                first()
-            obj[question.question_name] = user_answers.value if user_answers is not None else False
+            user_answers = None
+            logger.info(question)
+            for answer in question.answers:
+                user_answers = UserProperty.query. \
+                    filter_by(user_id=user_id). \
+                    filter_by(answer_id=answer.id). \
+                    first()
+                if user_answers is None:
+                    break
+            obj[question.question_name] = user_answers.answer.value if user_answers is not None else False
         return obj
 
 
