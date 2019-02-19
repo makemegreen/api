@@ -72,10 +72,9 @@ def signup():
     for key, value in answers.items():
         question_obj = Question.query.filter_by(question_name=key).first()
         if question_obj is None:
-            logger.info(key)
-        else:
             if isinstance(value, int) \
                     or isinstance(value, float):
+<<<<<<< 89c68e1890fdac34152f06f76b8556dc59074939
             # TODO: add answer id ?
             # property_value = Answer.query.filter_by(label=)
             answer_obj = UserProperty()
@@ -84,6 +83,21 @@ def signup():
             answer_obj.value = float(value)
             BaseObject.check_and_save(answer_obj)
             objects_to_save.append(answer_obj)
+=======
+                # TODO: add answer id ?
+                property_value = Answer.query.filter_by(label=key).first()
+                question_obj = Question.query.get(property_value.question_id)
+
+        if question_obj is None:
+            logger.info("Form seems to be broken: ", key)
+            raise Exception
+        answer_obj = UserProperty()
+        answer_obj.user_id = int(new_user.get_id())
+        answer_obj.question_id = int(question_obj.id)
+        answer_obj.value = float(value)
+        BaseObject.check_and_save(answer_obj)
+        objects_to_save.append(answer_obj)
+>>>>>>> rebase
 
     BaseObject.check_and_save(*objects_to_save)
 
