@@ -1,7 +1,8 @@
 """ sandbox """
 import random
 
-from models.data.app_data import question_data
+from models.answer import Answer
+from models.data.app_data import final_question_data, answer_data
 from tests.data import sandbox_data
 
 from models import *
@@ -47,29 +48,6 @@ def do_sandbox():
             recommendations.append(reco)
         else:
             recommendations.append(query.one())
-
-    questions = []
-    for prop_data in question_data:
-        query = Question.query.filter_by(question_name=prop_data['question_name'])
-        questions.append(query.one())
-
-    user_properties = []
-    for idx_user in range(len(users)):
-        count = len(questions)
-        if idx_user == 1:
-            count -= 1
-        for idx_property in range(count):
-            query = UserProperty.query.filter_by(user_id=idx_user + 1).filter_by(question_id=idx_property + 1)
-            if query.count() == 0:
-                userProp = UserProperty()
-                userProp.user_id = idx_user + 1
-                userProp.question_id = idx_property + 1
-                userProp.value = float(numpy.random.randint(10) + 1)
-                BaseObject.check_and_save(userProp)
-                print("Object : userproperty CREATED")
-                user_properties.append(userProp)
-            else:
-                user_properties.append(query.one())
 
     propositions = []
     for idx_user in range(len(users)):

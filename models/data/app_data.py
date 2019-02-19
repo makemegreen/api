@@ -19,7 +19,7 @@ final_question_data = [
         "question_name": "road_going_out",
         "category_name": "going_out",
         "id": 34,
-        "display_text": "A quelle fréquence faites vous appel à un taxi / uber / chauffeur privé ? (par mois)"
+        "display_text": "A quelle fréquence faites vous appel à un taxi / uber / chauffeur privé ? (par semaine)"
     },
     {
         "question_name": "road_going_on_holiday",

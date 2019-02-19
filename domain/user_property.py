@@ -1,5 +1,6 @@
 """ Property """
 from models import BaseObject, Question, UserProperty, UserPropertyHistory
+from utils.logger import logger
 
 
 class BadUserException(Exception):
@@ -22,11 +23,16 @@ class GetUserProperties:
         questions = Question.query.all()
         obj = dict()
         for question in questions:
-            user_answers = UserProperty.query. \
-                filter_by(user_id=user_id). \
-                filter_by(question_id=question.id). \
-                first()
-            obj[question.question_name] = user_answers.value if user_answers is not None else False
+            user_answers = None
+            logger.info(question)
+            for answer in question.answers:
+                user_answers = UserProperty.query. \
+                    filter_by(user_id=user_id). \
+                    filter_by(answer_id=answer.id). \
+                    first()
+                if user_answers is None:
+                    break
+            obj[question.question_name] = user_answers.answer.value if user_answers is not None else False
         return obj
 
 
@@ -38,11 +44,11 @@ class SaveUserProperties:
         object_to_save = []
         for key, value in data.items():
             question = Question.query.filter_by(question_name=key).first()
-            if question is not None\
+            if question is not None \
                     and value != "":
-                user_property = UserProperty.query.\
-                    filter_by(user_id=user_id).\
-                    filter_by(question_id=question.id).\
+                user_property = UserProperty.query. \
+                    filter_by(user_id=user_id). \
+                    filter_by(question_id=question.id). \
                     first()
                 if user_property is None:
                     user_property = UserProperty()
@@ -56,12 +62,12 @@ class SaveUserProperties:
 
         BaseObject.check_and_save(*object_to_save)
         for user_property in object_to_save:
-            HistoryUserProperties().execute(user_property.id,user_property.value)
+            HistoryUserProperties().execute(user_property.id, user_property.value)
+
 
 class HistoryUserProperties:
     def __init__(self):
         pass
-
 
     def execute(self, user_property_id, value):
         user_property_history = UserPropertyHistory()
