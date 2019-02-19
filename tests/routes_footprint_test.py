@@ -35,7 +35,15 @@ def test_compute_footprint(app):
         'food_white_meet_meals': 1,
         'food_fish_meals': 1,
         'food_veggie_meals': 1,
-        'food_percent_of_french_products': 50
+        'food_percent_of_french_products': 50,
+
+        'road_everyday_transport_type': "by_subway",
+        'road_everyday_distance': 20,
+        'road_going_on_holiday_plane': 6,
+        'road_going_on_holiday_tgv': 16,
+        'road_going_on_holiday_ter': 6,
+        'road_going_on_holiday_car': 10,
+        'road_going_out': 1,
     }
 
     result = ComputeInitialFootprint().execute(data)
