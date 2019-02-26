@@ -352,6 +352,32 @@ class GetFootprintHistory:
         return footprints
 
 
+class GetGlobalFootprint:
+    def __init__(self):
+        pass
+
+    def execute(self, user: User) -> float:
+        if user is None:
+            raise BadUserException()
+
+        global_footprint = 0
+        for type in FootprintType:
+            footprint_type = type.value.get('label')
+            if footprint_type != "total":
+                footprint = Footprint.query. \
+                    filter_by(user_id=user.get_id()). \
+                    filter_by(type=footprint_type). \
+                    order_by(Footprint.date_created.desc()). \
+                    first()
+                footprint_value = footprint.value
+
+                global_footprint += footprint_value
+
+        # convert kg eq CO2 to earth equivalence
+        global_footprint = global_footprint / 3000
+        return float("{0:.2f}".format(global_footprint))
+
+
 class GetFootprints:
     def __init__(self):
         pass
