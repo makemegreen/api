@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
-from domain.footprint import GetFootprints, ComputeFootprint, GetFootprintHistory, ComputeInitialFootprint
+from domain.footprint import GetFootprints, ComputeFootprint, GetFootprintHistory, ComputeInitialFootprint, GetGlobalFootprint
 from domain.activity import GetActivityCount, GetWeeklyProgress
 from models import Activity, ActivityStatus, User
 from utils.logger import logger
@@ -83,6 +83,8 @@ def get_info():
     result['statistics'] = {"total_carbon_saved": total_saved,
                             "user_total_saved": current_user_total_saved}
     result['activities'] = {"activity_count": activity_count}
+    global_footprint = GetGlobalFootprint().execute(current_user)
+    result['global_footprint'] = {"global_footprint": global_footprint}
     result['leaderbord'] = {"rank": str(user_rank) + "/" + str(users_count)}
     result['weekly_progress'] = weekly_progress
 
