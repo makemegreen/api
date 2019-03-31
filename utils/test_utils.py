@@ -26,7 +26,7 @@ def create_user(email='john.doe@test.com',
     user = User()
     user.email = email
     user.username = username
-    user.setPassword(password)
+    user.set_password(password)
     user.username = username
     return user
 

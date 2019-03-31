@@ -67,8 +67,6 @@ def signup():
             footprint_obj.user_id = int(new_user.get_id())
             objects_to_save.append(footprint_obj)
 
-    # TODO: c'est pas beau mais c'était plus rapide :(
-
     answers = footprints.get('answers')
     logger.info(answers)
 
@@ -77,19 +75,6 @@ def signup():
         if property_value is None:
             logger.info("Form seems to be broken: %s" % key)
             continue
-        # question_obj = Question.query.filter_by(question_name=key).first()
-        # property_value = None
-        # if question_obj is None:
-        #     property_value = Answer.query.filter_by(label=key).first()
-        #     question_obj = Question.query.get(property_value.question_id)
-        #
-        #     if question_obj is None:
-        #         logger.info("Form seems to be broken: %s" % key)
-        #         # We execpt at least 2 elements (home_clothes_composition_polyester and home_mates)
-        #         continue
-        #
-        # if property_value is None:
-        #     property_value = Answer.query.filter_by(label=key).first()
 
         logger.info("==============================")
         logger.info(key)

@@ -23,7 +23,7 @@ def get_user_with_credentials(identifier, password):
     if not user:
         errors.addError('identifier', 'Identifiant incorrect')
         raise errors
-    if not user.checkPassword(password):
+    if not user.check_password(password):
         errors.addError('password', 'Mot de passe incorrect')
         raise errors
 

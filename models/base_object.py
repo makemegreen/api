@@ -52,6 +52,9 @@ class BaseObject():
                 primary_key=True,
                 autoincrement=True)
 
+    def get_id(self):
+        return str(self.id)
+
     def __init__(self, **options):
         if options and 'from_dict' in options and options['from_dict']:
             self.populateFromDict(options['from_dict'])

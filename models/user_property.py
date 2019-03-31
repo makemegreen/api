@@ -1,5 +1,5 @@
 """User model"""
-from sqlalchemy import Column, Integer, BigInteger, ForeignKey, DateTime, Float
+from sqlalchemy import Column, BigInteger, ForeignKey, DateTime
 from datetime import datetime
 
 from sqlalchemy.orm import relationship
@@ -13,15 +13,11 @@ class UserProperty(BaseObject, Model):
 
     answer_id = Column(BigInteger, ForeignKey('answer.id'), nullable=False)
 
-    answer = relationship('Answer',
-                          foreign_keys=[answer_id])
+    answer = relationship('Answer', foreign_keys=[answer_id])
 
     # value = Column(Float, nullable=False)
 
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow())
-
-    def get_id(self):
-        return str(self.id)
 
     def errors(self):
         errors = super(UserProperty, self).errors()
