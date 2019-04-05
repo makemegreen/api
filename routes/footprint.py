@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
-from domain.footprint import GetFootprints, ComputeFootprint, GetFootprintHistory, ComputeInitialFootprint, GetGlobalFootprint
+from domain.footprint import GetFootprintHistory, ComputeInitialFootprint, GetGlobalFootprint, GetFootprintDetails
 from domain.activity import GetActivityCount, GetWeeklyProgress
 from models import Activity, ActivityStatus, User
 from utils.logger import logger
@@ -13,11 +13,38 @@ from utils.logger import logger
 @app.route("/footprint/compute", methods=["POST"])
 def compute():
     data = request.json
-    app.logger.info("Compute footprint data:")
-    logger.info(data)
-    footprints = ComputeInitialFootprint().execute(data)
-    result = {"footprints": footprints, "answers": data}
-    app.logger.info(result)
+    # TODO: pour le moment on simule un comportement standard
+    data['home_heat_type'] = "electricity"
+    data['home_area'] = 40
+    data['home_temperature'] = 20
+    data['home_heat_time'] = 12
+    data['food_milk_products'] = 2
+    data['reconditioned_goods'] = [
+        'reconditioned_electriconic_goods',
+        'reconditioned_electric_goods'
+    ]
+    data['home_electronic_devices'] = 3
+    data['home_change_electronic_good'] = 3
+    data['home_change_electric_good'] = 1
+    data['home_clothes_composition'] = 80
+    data['home_clothes_origin_coefficient'] = 20
+    data['home_clothes_number'] = 10
+    data['food_percent_of_french_products'] = 50
+    data['road_going_on_holiday_plane'] = 6
+    data['road_going_on_holiday_tgv'] = 16
+    data['road_going_on_holiday_ter'] = 6
+    data['road_going_on_holiday_car'] = 10
+    data['road_going_out'] = 1
+
+    footprint_result = ComputeInitialFootprint().execute(data)
+    footprints = footprint_result.get('footprints')
+    details = footprint_result.get('details')
+
+    result = {
+        "footprints": footprints,
+        "answers": data,
+        "details": details
+    }
 
     return jsonify(result)
 
@@ -35,12 +62,20 @@ def get_benefit():
 @app.route("/footprints", methods=["GET"])
 @login_required
 def get_footprints_history():
-
     footprints = GetFootprintHistory().execute(current_user)
     result = dict()
     result['footprints'] = _serialize_footprints_array(footprints)
 
     return jsonify(result)
+
+
+@app.route("/details/<category_type>", methods=["GET"])
+@login_required
+def get_footprints_details(category_type):
+    footprints = GetFootprintDetails().execute(current_user, category_type)
+    logger.info(footprints)
+
+    return jsonify(dict({"footprints_details": footprints}))
 
 
 @app.route("/dashboard", methods=["GET"])
@@ -61,11 +96,10 @@ def get_info():
     users_count = 0
     current_user_total_saved = 0
 
-
     for user in users:
-        activities = Activity.query.\
-            filter_by(status=ActivityStatus.success).\
-            filter_by(user=user).\
+        activities = Activity.query. \
+            filter_by(status=ActivityStatus.success). \
+            filter_by(user=user). \
             all()
         user_total_saved = 0
         for activity in activities:
