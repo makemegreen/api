@@ -1,7 +1,7 @@
 """ Footprint """
 from models import BaseObject, Footprint, User, FootprintType
-from engine import dictionnary as info
 from models.answer import Answer
+from models.footprint_details import FootprintDetails
 from utils.logger import logger
 
 
@@ -22,8 +22,8 @@ NUMBER_OF_DAYS_PER_YEAR = 365
 NUMBER_OF_MONTHS_PER_YEAR = 12
 
 NUMBER_OF_MILK_PRODUCTS_PER_WEEK = 1
-NUMBER_OF_RED_MEET_MEALS_PER_WEEK = 5
-NUMBER_OF_WHITE_MEET_MEALS_PER_WEEK = 4
+NUMBER_OF_RED_MEAT_MEALS_PER_WEEK = 5
+NUMBER_OF_WHITE_MEAT_MEALS_PER_WEEK = 4
 NUMBER_OF_FISH_MEALS_PER_WEEK = 1
 NUMBER_OF_VEGGIE_MEALS_PER_WEEK = 2
 PERCENT_OF_FRENCH_PRODUCTS = 0, 5
@@ -33,6 +33,7 @@ PLANE_SPEED = 860
 TGV_SPEED = 320
 TER_SPEED = 160
 CAR_SPEED = 80
+
 
 class ComputeInitialFootprint:
 
@@ -114,7 +115,7 @@ class ComputeInitialFootprint:
     def compute_going_out_transportation(self, data):
         frequence_going_out_per_month = int(data.get('road_going_out'))
         going_out_coefficient = Answer.query.filter_by(answer_name='road_going_out').one().value
-        going_out_distance = int(data.get('road_everyday_distance')) / 2 # we assume it's a way back
+        going_out_distance = int(data.get('road_everyday_distance')) / 2  # we assume it's a way back
         going_out_consumption = going_out_distance * going_out_coefficient * frequence_going_out_per_month * NUMBER_OF_MONTHS_PER_YEAR
 
         return going_out_consumption / 1000
@@ -168,23 +169,25 @@ class ComputeInitialFootprint:
 
         return food_milk_products_footprint
 
-    def compute_food_meals(self, data):
-        number_of_red_meet_meals = int(data.get('food_red_meet_meals', NUMBER_OF_RED_MEET_MEALS_PER_WEEK))
-        number_of_white_meet_meals = int(data.get('food_white_meet_meals', NUMBER_OF_WHITE_MEET_MEALS_PER_WEEK))
+    def compute_red_meat_meals(self, data, percent_french_products):
+        number_of_red_meat_meals = int(data.get('food_red_meet_meals', NUMBER_OF_RED_MEAT_MEALS_PER_WEEK))
+        return number_of_red_meat_meals * 12.78 * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
+
+    def compute_white_meat_meals(self, data, percent_french_products):
+        number_of_white_meat_meals = int(data.get('food_white_meet_meals', NUMBER_OF_WHITE_MEAT_MEALS_PER_WEEK))
+        return number_of_white_meat_meals * 2.3 * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
+
+    def compute_fish_meals(self, data, percent_french_products):
         number_of_fish_meals = int(data.get('food_fish_meals', NUMBER_OF_FISH_MEALS_PER_WEEK))
-        number_of_veggie_meals = int(data.get('food_fish_meals', NUMBER_OF_VEGGIE_MEALS_PER_WEEK))
+        return number_of_fish_meals * 1.9 * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
+
+    def compute_veggie_meals(self, data, percent_french_products):
+        number_of_veggie_meals = int(data.get('food_veggie_meals', NUMBER_OF_VEGGIE_MEALS_PER_WEEK))
+        return number_of_veggie_meals * 0.9 * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
+
+    def compute_percent_french_products(self, data):
         percent_french_products = int(data.get('food_percent_of_french_products', PERCENT_OF_FRENCH_PRODUCTS)) / 100
-
-        food_meals_footprint = 0.2 * 14 + (number_of_red_meet_meals * 12.78 + number_of_white_meet_meals * 2.3 \
-                                           + number_of_fish_meals * 1.9 + number_of_veggie_meals * 0.9) \
-                               * 0.15 * 52 * 14 + 1 * (1 - percent_french_products) * 14 * 52
-
-        return food_meals_footprint
-
-
-    # def get_values(self, data):
-    #     self.home_clothes_origin_coefficient = data.get('home_clothes_origin_coefficient',
-    #                                                     int(HOME_CLOTHES_ORIGIN_COEFFICIENT_DEFAULT))
+        return percent_french_products
 
     def execute(self, data):
         if data is None:
@@ -213,9 +216,12 @@ class ComputeInitialFootprint:
 
         footprint_values['home_mates'] = self.compute_home_mates(data)
 
-        footprint_values['meal'] = 0
-        footprint_values['meal'] += self.compute_food_milk_products(data)
-        footprint_values['meal'] += self.compute_food_meals(data)
+        percentage_french_product = self.compute_percent_french_products(data)
+        footprint_values['milk'] = self.compute_food_milk_products(data)
+        footprint_values['red_meat'] = self.compute_red_meat_meals(data, percentage_french_product)
+        footprint_values['white_meat'] = self.compute_white_meat_meals(data, percentage_french_product)
+        footprint_values['fish_meal'] = self.compute_fish_meals(data, percentage_french_product)
+        footprint_values['veggie_meal'] = self.compute_veggie_meals(data, percentage_french_product)
 
         footprint_values['going_to_work'] = 0
         footprint_values['going_to_work'] += self.compute_everyday_transportation(data)
@@ -234,9 +240,17 @@ class ComputeInitialFootprint:
                                    + footprint_values['going_on_holiday'] \
                                    + footprint_values['going_out'])
 
-        food_footprint_value = int(footprint_values['meal'])
+        food_footprint_value = 0.2 * 14 \
+                               + int(footprint_values['milk']) \
+                               + int(footprint_values['red_meat']) \
+                               + int(footprint_values['white_meat']) \
+                               + int(footprint_values['fish_meal']) \
+                               + int(footprint_values['veggie_meal'])
 
-        result = [
+        home_mates_value = int(footprint_values['home_mates'])
+
+        result = {}
+        result["footprints"] = [
             {
                 "type": {
                     "label": "home"
@@ -257,76 +271,68 @@ class ComputeInitialFootprint:
             },
             {
                 "type": "home_mates",
-                "value": footprint_values['home_mates']
-            }
+                "value": home_mates_value
+            },
         ]
-        print("==============================================================")
-        print(footprint_values)
-
-        print(result)
+        result["details"] = [
+            {
+                "type": "home",
+                "category": "energy",
+                "value": int(footprint_values['energy'])
+            },
+            {
+                "type": "home",
+                "category": "water",
+                "value": int(footprint_values['water'])
+            },
+            {
+                "type": "home",
+                "category": "clothes",
+                "value": int(footprint_values['clothes'])
+            },
+            {
+                "type": "road",
+                "category": "going_to_work",
+                "value": int(footprint_values['going_to_work'])
+            },
+            {
+                "type": "road",
+                "category": "going_on_holiday",
+                "value": int(footprint_values['going_on_holiday'])
+            },
+            {
+                "type": "road",
+                "category": "going_out",
+                "value": int(footprint_values['going_out'])
+            },
+            {
+                "type": "food",
+                "category": "milk",
+                "value": int(footprint_values['milk'])
+            },
+            {
+                "type": "food",
+                "category": "red_meat",
+                "value": int(footprint_values['red_meat'])
+            },
+            {
+                "type": "food",
+                "category": "white_meat",
+                "value": int(footprint_values['white_meat'])
+            },
+            {
+                "type": "food",
+                "category": "fish_meal",
+                "value": int(footprint_values['fish_meal'])
+            },
+            {
+                "type": "food",
+                "category": "fish_meal",
+                "value": int(footprint_values['veggie_meal'])
+            },
+        ]
 
         return result
-
-
-class ComputeFootprint:
-    def __init__(self):
-        pass
-
-    def getCO2Footprint(self, data):
-
-        redmeatFootprint = float(data.get('red_meat_frequency')) * info.dic['serving'] * info.dic['nb_meals'] * \
-                           info.dic['red_meat']
-        whitemeatFootprint = float(data.get('white_meat_frequency')) * info.dic['serving'] * info.dic['nb_meals'] * \
-                             info.dic['white_meat']
-        clothesFootprint = float(data.get('clothes_composition')) * info.dic['quantity_clothes'] * info.dic['cotton'] \
-                           + (1 - float(data.get('clothes_composition'))) * info.dic['quantity_clothes'] * info.dic[
-                               'polyester/wool']
-        trainFootprint = float(data.get('train_frequency')) * info.dic['train']
-        if float(data.get('personal_vehicule_consumption')) == -1:
-            carFootprint = float(data.get('personal_vehicule_frequency')) * info.dic['car']
-        else:
-            carFootprint = float(data.get('personal_vehicule_frequency')) * float(
-                data.get('personal_vehicule_consumption')) / 100. * info.dic['car_liter']
-        carFootprint = carFootprint - carFootprint * float(data.get('carpooling_frequency')) * (
-                info.dic['nb_passengers'] - 1.) / info.dic['nb_passengers']
-        return redmeatFootprint + whitemeatFootprint + clothesFootprint + carFootprint
-
-    def getTrashFootprint(self, data):
-        greentrashFootprint = float(data.get('green_garbage')) * info.dic['green_trash']
-        yellowtrashFootprint = float(data.get('yellow_garbage')) * info.dic['yellow_trash']
-        return greentrashFootprint + yellowtrashFootprint
-
-    def getWaterFootprint(self, data):
-        bathFootprint = float(data.get('bath_shower_frequency')) * float(data.get('bath_or_shower')) * info.dic['bath']
-        showerFootprint = float(data.get('bath_shower_frequency')) * (1 - float(data.get('bath_or_shower'))) * info.dic[
-            'shower'] * info.dic['time_shower']
-        return bathFootprint + showerFootprint
-
-    def execute(self, data):
-
-        return [
-            {
-                "id": 1,
-                "type": {
-                    "label": "road"
-                },
-                "value": self.getCO2Footprint(data)
-            },
-            {
-                "id": 2,
-                "type": {
-                    "label": "food"
-                },
-                "value": self.getTrashFootprint(data)
-            },
-            {
-                "id": 3,
-                "type": {
-                    "label": "home"
-                },
-                "value": self.getWaterFootprint(data)
-            }
-        ]
 
 
 class GetFootprintHistory:
@@ -348,6 +354,22 @@ class GetFootprintHistory:
                     all()
 
                 footprints.append(footprint)
+
+        return footprints
+
+
+class GetFootprintDetails:
+    def __init__(self):
+        pass
+
+    def execute(self, user: User, footprint_type: str) -> [FootprintDetails]:
+        if user is None:
+            raise BadUserException()
+
+        footprints = FootprintDetails.query. \
+            filter_by(user_id=user.get_id()). \
+            filter_by(type=footprint_type). \
+            all()
 
         return footprints
 

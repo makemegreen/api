@@ -15,6 +15,7 @@ from models.category import Category
 from models.footprint_category import FootprintCategory
 from models.question_category import QuestionCategory
 from models.recommendation_category import RecommendationCategory
+from models.footprint_details import FootprintDetails
 
 __all__ = (
     'ApiErrors',
@@ -36,4 +37,5 @@ __all__ = (
     'FootprintCategory',
     'QuestionCategory',
     'RecommendationCategory',
+    'FootprintDetails',
 )

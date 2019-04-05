@@ -11,9 +11,9 @@ from utils.config import IS_DEV
 def install_models():
     orm.configure_mappers()
     
+    db.create_all()
+    db.session.commit()
     if IS_DEV:
-        db.create_all()
-        db.session.commit()
         install_models_data()
 
 
