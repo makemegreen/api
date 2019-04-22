@@ -327,7 +327,7 @@ class ComputeInitialFootprint:
             },
             {
                 "type": "food",
-                "category": "fish_meal",
+                "category": "veggie_meal",
                 "value": int(footprint_values['veggie_meal'])
             },
         ]
