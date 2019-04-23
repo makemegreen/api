@@ -90,7 +90,7 @@ def get_info():
     activity_count = GetActivityCount().execute(current_user)
 
     # TODO: it will be very costly
-    # TODO: Need to remove this before service opening
+    # Need to remove this before service opening
     total_saved_by_user = OrderedDict()
     users = User.query.all()
     users_count = 0

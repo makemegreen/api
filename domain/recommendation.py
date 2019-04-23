@@ -154,7 +154,7 @@ class DiscoverNewRecommendations:
                          label)  # python indexes starts at 0, thus the user.id - 1
         type_ = 'memory_based'  # type of model used
         model = ensemble_model(data, type_, myuser_dates=myuser_dates, freq_recomm=freq_recommendations,
-                              recomm_impact=impact_recommend)
+                               recomm_impact=impact_recommend)
 
         result_model = model.sample()
         if result_model is not False:

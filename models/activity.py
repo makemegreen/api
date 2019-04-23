@@ -9,9 +9,15 @@ from collections import OrderedDict
 
 
 class ActivityStatus(enum.Enum):
-    success = {'label': "succès"}
-    fail = {'label': "échec"}
-    pending = {'label': "en cours"}
+    success = {
+        'label': "succès"
+    }
+    fail = {
+        'label': "échec"
+    }
+    pending = {
+        'label': "en cours"
+    }
 
     def _asdict(self):
         result = OrderedDict()
@@ -35,15 +41,6 @@ class Activity(BaseObject, Model):
 
     def get_benefit(self):
         return self.recommendation.benefit
-
-    def set_recommendation(self, recommendation_id):
-        self.recommendation_id = recommendation_id
-
-    def set_user(self, user_id):
-        self.user_id = user_id
-
-    def set_status(self, status):
-        self.status = status
 
     def set_date_end(self):
         self.date_end = datetime.utcnow()

@@ -8,13 +8,18 @@ from models.footprint_type import FootprintType
 
 
 class Recommendation(BaseObject, Model):
-
     title = Column(String(120), nullable=False)
+
     content = Column(Text, nullable=False)
+
     benefit = Column(Float, nullable=False)
+
     benefit_description = Column(Text, nullable=True)
+
     did_you_know = Column(Text, nullable=True)
+
     how_to = Column(Text, nullable=True)
+
     type = Column(Enum(FootprintType))
 
     is_shared = Column(Boolean, nullable=False, default=False)

@@ -71,6 +71,6 @@ class HistoryUserProperties:
 
     def execute(self, user_property_id, value):
         user_property_history = UserPropertyHistory()
-        user_property_history.set_userproperty_id(user_property_id)
-        user_property_history.set_value(value)
+        user_property_history.user_property_id = user_property_id
+        user_property_history.value = value
         BaseObject.check_and_save(user_property_history)

@@ -1,9 +1,7 @@
 """ Activity """
-from flask import current_app as app
 from datetime import datetime, timedelta
 
 from sqlalchemy import func
-from sqlalchemy.sql import label
 
 from models import BaseObject, Footprint, User, Activity, ActivityStatus, Recommendation, FootprintType, ActivityHistory
 from models.db import db
@@ -64,12 +62,12 @@ class StartActivity:
             raise AlreadyStartedException
 
         activity = Activity()
-        activity.set_recommendation(recommendation_id)
-        activity.set_user(user_id)
+        activity.recommendation_id = recommendation_id
+        activity.user_id = user_id
 
         BaseObject.check_and_save(activity)
 
-        HistoryActivity().execute(activity.id,"pending")
+        HistoryActivity().execute(activity.id, "pending")
 
         return activity
 
@@ -83,12 +81,12 @@ class EndActivity:
             raise BadArgException()
 
         activity = Activity.query.filter_by(id=activity_id).first()
-        activity.set_status(ActivityStatus.fail)
+        activity.status = ActivityStatus.fail
         activity.set_date_end()
 
         BaseObject.check_and_save(activity)
 
-        HistoryActivity().execute(activity.id,"fail")
+        HistoryActivity().execute(activity.id, "fail")
 
         return activity
 
@@ -113,7 +111,6 @@ class ValidateActivity:
             order_by(Footprint.date_created.desc()). \
             first()
 
-
         previous_value = footprint.value
         new_footprint = Footprint(from_dict=footprint._asdict())
         new_footprint.value = previous_value - activity.recommendation.benefit
@@ -121,7 +118,7 @@ class ValidateActivity:
 
         BaseObject.check_and_save(activity, new_footprint)
 
-        HistoryActivity().execute(activity.id,"success")
+        HistoryActivity().execute(activity.id, "success")
 
         return activity
 
@@ -131,10 +128,8 @@ class HoldActivity:
         pass
 
     def execute(sel, activity_id, user_id) -> Activity:
-
         if activity_id is None or user_id is None:
             raise BadArgException()
-
 
         # UPDATE ACTIVITY
         activity = Activity.query.filter_by(id=activity_id).first()
@@ -158,6 +153,7 @@ class HoldActivity:
         HistoryActivity().execute(activity.id, "pending")
 
         return activity
+
 
 class GetWeeklyProgress:
     def __init__(self):
@@ -211,6 +207,7 @@ class GetWeeklyProgress:
         result = sorted(result, key=lambda k: k['type'].value.get('label'))
 
         return result
+
 
 class HistoryActivity:
     def __init__(self):

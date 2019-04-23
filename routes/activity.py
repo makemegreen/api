@@ -18,7 +18,6 @@ def validate_activity(activity_id):
     ValidateActivity().execute(activity_id=activity_id, user_id=int(current_user.get_id()))
     result = dict({"success": "yes"})
 
-
     return jsonify(result)
 
 
@@ -52,7 +51,7 @@ def start_activity(reco_id):
         StartActivity().execute(recommendation_id, int(current_user.get_id()))
     except AlreadyStartedException:
         return jsonify(dict({"status": "fail",
-                       "message": "Cette recommendation est déjà en cours dans ton activité"})), 401
+                             "message": "Cette recommendation est déjà en cours dans ton activité"})), 401
     result = dict({"status": "success",
                    "message": "Cette recommendation a bien été ajouté à ton activité"})
 
@@ -77,4 +76,3 @@ def _serialize_activities(activities):
 def _serialize_activity(activity):
     dict_activity = activity._asdict(include=ACTIVITY_INCLUDES)
     return dict_activity
-

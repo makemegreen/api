@@ -1,8 +1,7 @@
 """ Footprint """
-from models import BaseObject, Footprint, User, FootprintType
+from models import Footprint, User, FootprintType
 from models.answer import Answer
 from models.footprint_details import FootprintDetails
-from utils.logger import logger
 
 
 class BadFormInputException(Exception):
@@ -421,66 +420,3 @@ class GetFootprints:
                 footprints.append(footprint)
 
         return footprints
-
-
-class SaveFootprint:
-    def __init__(self, footprint: Footprint):
-        self.footprint = Footprint
-
-    def execute(self, footprint: Footprint) -> Footprint:
-        if footprint is None:
-            raise BadArgException()
-
-        BaseObject.check_and_save(footprint)
-
-        return footprint
-
-        # for key, value in data.items():
-        #     question_regexp = re.compile('(\w+)-(\w+)')
-        #     match = question_regexp.search(key)
-        #
-        #     if match:
-        #         question_name = match(1)
-        #     else:
-        #         question_name = key
-        #
-        #     question = Question.query.filter_by(question_name=question_name).one()
-        #
-        #     if question is None:
-        #         raise BadFormInputException
-        #
-        #     # C'est le cas des questions qui servent à d'autres
-        #     if question.is_coefficient:
-        #         continue
-        #
-        #     # C'est le cas des additions
-        #     if match:
-        #         user_answer = Answer.query.filter_by(answer_name=match(2)).one()
-        #         answer_value = user_answer.value * value
-        #
-        #     else:
-        #         user_answer = Answer.query.filter_by(answer_name=value).one()
-        #
-        #         answer_value = user_answer.value  # exemple: => consommation du type de heater
-        #
-        #         # On est dans le cas d'une question possédant des coeff
-        #         coefficients = question.coefficients
-        #         if coefficients is not None\
-        #                 and len(coefficients) > 0:
-        #             # surface
-        #             # température
-        #             for question_coeff in coefficients:
-        #                 coeff = data.get(question_coeff)
-        #                 answer_value = answer_value * coeff
-        #
-        #     footprint_values[question.get_footprint_type()] += answer_value
-
-        # for key, value in footprint_values.items():
-        #     footprint_value = dict()
-        #     if key == 'home_mates':
-        #         footprint_value['type'] = key
-        #     else:
-        #         category = Category.query.filter_by(label=key).one()
-        #         footprint_value['type'] = FootprintType(category.type).value['label']
-        #         footprint_value['value'] = value
-        #         result.append(footprint_value)

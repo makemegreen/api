@@ -19,7 +19,6 @@ def get_profile():
 @app.route('/users/current', methods=['PATCH'])
 @login_required
 def patch_profile():
-    data = request.json.keys()
     current_user.populateFromDict(request.json)
     BaseObject.check_and_save(current_user)
     user = current_user._asdict(include=USER_INCLUDES)
@@ -69,12 +68,6 @@ def signup():
 
     answers = footprints.get('answers')
     details = footprints.get('details')
-
-    logger.info("details")
-    logger.info(details)
-
-    logger.info("answers")
-    logger.info(answers)
 
     for footprint_detail in details:
         logger.info(footprint_detail)

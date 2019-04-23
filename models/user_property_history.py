@@ -7,7 +7,6 @@ from models.base_object import BaseObject
 
 
 class UserPropertyHistory(BaseObject, Model):
-
     id = Column(Integer, primary_key=True)
 
     user_property_id = Column(BigInteger, ForeignKey('user_property.id'), nullable=False)
@@ -18,12 +17,6 @@ class UserPropertyHistory(BaseObject, Model):
 
     def get_id(self):
         return str(self.id)
-
-    def set_userproperty_id(self, userproperty_id):
-        self.user_property_id = userproperty_id
-
-    def set_value(self, value):
-        self.value = value
 
     def errors(self):
         errors = super(UserPropertyHistory, self).errors()

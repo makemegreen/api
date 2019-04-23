@@ -18,7 +18,6 @@ class FootprintDetails(BaseObject, Model):
 
     value = Column(Float, nullable=False)
 
-    # TODO: it is not ouf
     def populateFromDict(self, dct):
         super(FootprintDetails, self).populateFromDict(dct)
         if dct.__contains__('value') and dct['value']:
