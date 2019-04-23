@@ -2,20 +2,18 @@
 from flask import current_app as app, jsonify, request
 from flask_login import current_user, login_required
 
-from domain.recommendation import AddRecommendation, DiscoverNewRecommendations
-from models import Recommendation, Activity, ActivityStatus
+from domain.recommendation import AddRecommendation
+from models import Recommendation, Activity
 from collections import OrderedDict
-
-# TODO: login_required or not for GET and list methods?
 from utils.token import check_token
 
+
 @app.route("/recommendations", methods=["POST"])
+@login_required
 def add_recommendations():
     token = request.args.get('token')
     check_token(token)
-    app.logger.info("Start add recommendations")
     data = request.json
-    app.logger.info(data)
     index = 0
     while index < len(data):
         AddRecommendation().execute(current_user, data[index])
@@ -25,14 +23,15 @@ def add_recommendations():
 
     return jsonify(result)
 
+
 @app.route("/recommendations", methods=["GET"])
 @login_required
 def list_recommendations():
-    reco_already_attach_to_user = Activity.query.\
-        with_entities(Activity.recommendation_id).\
+    reco_already_attach_to_user = Activity.query. \
+        with_entities(Activity.recommendation_id). \
         filter_by(user_id=current_user.get_id()).all()
     app.logger.info(reco_already_attach_to_user)
-    query = Recommendation.query.\
+    query = Recommendation.query. \
         filter(Recommendation.id.notin_(reco_already_attach_to_user))
     recommendations = query.all()
     app.logger.info(recommendations)
@@ -41,6 +40,7 @@ def list_recommendations():
 
     return jsonify(result)
 
+
 @app.route('/recommendations/<reco_id>', methods=['GET'])
 @login_required
 def get_recommendation(reco_id):
@@ -48,6 +48,7 @@ def get_recommendation(reco_id):
     query = Recommendation.query.filter_by(id=reco_id)
     recommendation = query.first_or_404()
     return jsonify(recommendation), 200
+
 
 @app.route("/recommendations/search", methods=["GET"])
 def search_recommendations():
@@ -58,7 +59,7 @@ def search_recommendations():
         recommendations = list()
         for word in word_list:
             query = Recommendation.query. \
-                filter(Recommendation.title.ilike('%'+word+'%'))
+                filter(Recommendation.title.ilike('%' + word + '%'))
             recommendations += query.all()
         if len(recommendations) == 0:
             result['error'] = "No recommendation found"
@@ -70,6 +71,7 @@ def search_recommendations():
     else:
         result['error'] = "Wrong field"
         return jsonify(result), 400
+
 
 def _serialize_recommendations(recommendations):
     return list(map(_serialize_recommendation, recommendations))

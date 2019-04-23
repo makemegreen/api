@@ -10,7 +10,7 @@ from utils.config import IS_DEV
 
 def install_models():
     orm.configure_mappers()
-    
+
     db.create_all()
     db.session.commit()
     if IS_DEV:
@@ -18,17 +18,6 @@ def install_models():
 
 
 def install_models_data():
-    # questions = []
-    # query = Question.query
-    # if query.count() == 0:
-    #     for question_data in app_data.new_question_data:
-    #         question = Question(from_dict=question_data)
-    #         BaseObject.check_and_save(question)
-    #         print("Object: question CREATED")
-    #         questions.append(question)
-    # else:
-    #     questions.append(query.all())
-
     questions = []
     query = Question.query
     if query.count() == 0:

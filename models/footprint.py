@@ -13,10 +13,9 @@ class Footprint(BaseObject, Model):
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     type = Column(Enum(FootprintType))
-    
+
     value = Column(Float, nullable=False)
 
-    # TODO: it is not ouf
     def populateFromDict(self, dct):
         super(Footprint, self).populateFromDict(dct)
         if dct.__contains__('value') and dct['value']:

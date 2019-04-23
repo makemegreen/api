@@ -9,7 +9,6 @@ from models.base_object import BaseObject
 
 
 class Answer(BaseObject, Model):
-
     answer_name = Column(Text, unique=True, nullable=False)
 
     value = Column(Float, nullable=True)

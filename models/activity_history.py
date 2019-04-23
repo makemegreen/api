@@ -10,13 +10,13 @@ from collections import OrderedDict
 
 class ActivityStatus(enum.Enum):
     success = {
-        'label': "success"
+        'label': "succès"
     }
     fail = {
-        'label': "fail"
+        'label': "échec"
     }
     pending = {
-        'label': "in_progress"
+        'label': "en cours"
     }
 
     def _asdict(self):

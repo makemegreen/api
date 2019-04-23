@@ -30,7 +30,6 @@ class PropositionStatus(enum.Enum):
 
 
 class Proposition(BaseObject, Model):
-
     user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
     recommendation_id = Column(BigInteger, ForeignKey('recommendation.id'), nullable=False)
 
@@ -40,7 +39,7 @@ class Proposition(BaseObject, Model):
 
     date_write = Column(DateTime, nullable=True)
 
-    date_created = Column(DateTime, nullable=False,  default=datetime.utcnow)
+    date_created = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     def get_id(self):
         return str(self.id)
