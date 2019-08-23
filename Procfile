@@ -1,0 +1,1 @@
+web: gunicorn -w $UNICORN_N_WORKERS --timeout $UNICORN_TIMEOUT mmg:mmg

@@ -1,0 +1,12 @@
+{
+  "name": "Make Me Green",
+  "description": "Serveur API de MakeMeGreen",
+  "repository": "https://github.com/makemegreen/api",
+  "addons": ["postgresql:free"],
+  "formation": {
+    "web": {
+      "amount": 1,
+      "size": "S"
+    }
+  }
+}
